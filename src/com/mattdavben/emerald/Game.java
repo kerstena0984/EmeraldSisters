@@ -64,9 +64,14 @@ public class Game extends Canvas implements Runnable {
 
 	public void run() {
 		long lastTime = System.nanoTime();
+		int updates = 0;
+		int frames = 0;
 		double unprocessed = 0;
 		double nsPerTick = 1000000000.0 / 60.0;
 		boolean shouldDraw = false;
+		long lastTimer = System.currentTimeMillis();
+		int prints = 0;
+		int totalFrames = 0;
 
 		while (running) {
 			long now = System.nanoTime();
@@ -74,19 +79,24 @@ public class Game extends Canvas implements Runnable {
 			lastTime = now;
 
 			if (unprocessed >= 1) {
+				updates++;
 				update();
 				unprocessed -= 1;
 				shouldDraw = true;
 			}
 
 			if (shouldDraw) {
+				frames++;
 				draw();
 			}
 
-			try {
-				Thread.sleep(2);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (System.currentTimeMillis() - lastTimer > 1000) {
+				lastTimer += 1000;
+				prints++;
+				totalFrames += frames;
+				System.out.println(frames + " fps|" + updates + " ups|" + (totalFrames / prints) + " avg fps");
+				frames = 0;
+				updates = 0;
 			}
 		}
 	}
