@@ -7,8 +7,13 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
+import com.mattdavben.emerald.graphics.Screen;
+import com.mattdavben.emerald.graphics.SpriteSheet;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -22,6 +27,7 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	private int updateCount;
+	private Screen screen;
 
 	public Game() {
 
@@ -37,7 +43,11 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
-
+		try {
+			screen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/SpriteSheet.png"))));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void update() {
