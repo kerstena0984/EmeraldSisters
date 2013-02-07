@@ -32,22 +32,11 @@ public class Game extends Canvas implements Runnable {
 	private InputHandler input;
 	private Level level;
 	private Hero hero;
-	
-	private int walkDist, direction;
-	private SpriteSheet characterSheet;
-	private int characterX, characterY;
 
 	public Game() {
 		input = new InputHandler(this);
 		level = new Level(WIDTH, HEIGHT);
 		hero = new Hero();
-		characterX = WIDTH / 2;
-		characterY = HEIGHT / 2;
-		try {
-			characterSheet = new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/Kate.png")));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void start() {
@@ -70,30 +59,26 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void update() {
+		int xMove = 0;
+		int yMove = 0;
 		if (input.up.isDown) {
 			screen.yOffset--;
-			walkDist++;
-			direction = 0;
-			characterY--;
+			yMove--;
 		}
 		else if (input.down.isDown) {
 			screen.yOffset++;
-			walkDist++;
-			direction = 1;
-			characterY++;
+			yMove++;
 		}
 		if (input.left.isDown) {
 			screen.xOffset--;
-			walkDist++;
-			direction = 2;
-			characterX--;
+			xMove--;
 		}
 		else if (input.right.isDown) {
 			screen.xOffset++;
-			walkDist++;
-			direction = 3;
-			characterX++;
+			xMove++;
 		}
+		hero.move(xMove, yMove);
+		hero.currentTile(level);
 	}
 
 	private void draw() {
@@ -105,22 +90,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen.clear();
 		level.render(screen, screen.xOffset, screen.yOffset);
-
-		{
-			int walkingSpeed = 3;
-			int switchSprite = ((walkDist >> walkingSpeed) & 1);
-			int switchFeet = ((walkDist >> walkingSpeed) & 3);
-			int flipSprite = ((walkDist >> 4) & 1);
-			int nextSprite = 0;
-			if (switchFeet == 0 || switchFeet == 2) nextSprite = 0;
-			if (switchFeet == 1) nextSprite = 1;
-			if (switchFeet == 3) nextSprite = 2;
-
-			if (direction == 0) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 6 + switchSprite, 0 + flipSprite);
-			if (direction == 1) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 0 + nextSprite, 0);
-			if (direction == 2) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 3 + nextSprite, 0);
-			if (direction == 3) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 3 + nextSprite, 1);
-		}
+		level.renderSprites(screen, getXScroll(), getYScroll());
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
@@ -172,6 +142,20 @@ public class Game extends Canvas implements Runnable {
 				updates = 0;
 			}
 		}
+	}
+	
+	private int getYScroll() {
+		int yScroll = hero.getY() - screen.height / 2;
+//		if (yScroll < 0) yScroll = 0;
+//		if (yScroll > (level.getHeight() - (screen.height / 16)) << 4) yScroll = (level.getHeight() - (screen.height / 16)) << 4;
+		return yScroll;
+	}
+
+	private int getXScroll() {
+		int xScroll = hero.getX() - screen.width / 2;
+//		if (xScroll < 0) xScroll = 0;
+//		if (xScroll > (level.getWidth() - (screen.width / 16)) << 4) xScroll = (level.getWidth() - (screen.width / 16)) << 4;
+		return xScroll;
 	}
 
 	public static void main(String[] argv) {

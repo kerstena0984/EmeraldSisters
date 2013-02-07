@@ -28,7 +28,22 @@ public class Level {
 		}
 	}
 
+	public void renderSprites(Screen screen, int xScroll, int yScroll) {
+		screen.setOffset(xScroll, yScroll);
+		for (Entity entity : entities) {
+			entity.draw(screen);
+		}
+	}
+
 	public void add(Entity entity) {
 		entities.add(entity);
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

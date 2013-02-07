@@ -4,11 +4,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.mattdavben.emerald.graphics.Screen;
 import com.mattdavben.emerald.graphics.SpriteSheet;
 
 public class Entity {
-	private int x, y;
-	private SpriteSheet sheet;
+	protected int x, y;
+	protected SpriteSheet sheet;
 
 	public Entity() {
 		try {
@@ -16,6 +17,10 @@ public class Entity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void draw(Screen screen){
+		
 	}
 	
 	public SpriteSheet getSpriteSheet(){
