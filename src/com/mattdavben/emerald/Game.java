@@ -3,6 +3,10 @@ package com.mattdavben.emerald;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
@@ -15,6 +19,9 @@ public class Game extends Canvas implements Runnable {
 	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.0.1";
 
 	private boolean running = false;
+	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+	private int updateCount;
 
 	public Game() {
 
@@ -34,15 +41,54 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void update() {
-
+		updateCount++;
 	}
 
-	private void render() {
+	private void draw() {
+		BufferStrategy bstrat = this.getBufferStrategy();
+		if (bstrat == null) {
+			createBufferStrategy(3);
+			return;
+		}
 
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = i * updateCount;
+		}
+
+		Graphics g = bstrat.getDrawGraphics();
+
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+		g.dispose();
+		bstrat.show();
 	}
 
 	public void run() {
+		long lastTime = System.nanoTime();
+		double unprocessed = 0;
+		double nsPerTick = 1000000000.0 / 60.0;
+		boolean shouldDraw = false;
 
+		while (running) {
+			long now = System.nanoTime();
+			unprocessed += (now - lastTime) / nsPerTick;
+			lastTime = now;
+
+			if (unprocessed >= 1) {
+				update();
+				unprocessed -= 1;
+				shouldDraw = true;
+			}
+
+			if (shouldDraw) {
+				draw();
+			}
+
+			try {
+				Thread.sleep(2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] argv) {
