@@ -42,4 +42,9 @@ public class Screen {
 			pixels[i] = 0x000000;
 		}
 	}
+
+	public void setOffset(int xOffset, int yOffset) {
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
+	}
 }

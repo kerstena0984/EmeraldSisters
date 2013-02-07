@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 
 import com.mattdavben.emerald.graphics.Screen;
 import com.mattdavben.emerald.graphics.SpriteSheet;
+import com.mattdavben.emerald.level.Level;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -26,12 +27,13 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-	private int updateCount;
 	private Screen screen;
 	private InputHandler input;
+	private Level level;
 
 	public Game() {
 		input = new InputHandler(this);
+		level = new Level(WIDTH, HEIGHT);
 	}
 
 	private void start() {
@@ -52,7 +54,6 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void update() {
-		updateCount++;
 		if (input.up.isDown) screen.yOffset--;
 		if (input.down.isDown) screen.yOffset++;
 		if (input.left.isDown) screen.xOffset--;
@@ -67,7 +68,7 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear();
-		screen.render(0, 0, 0, 0);
+		level.render(screen, screen.xOffset, screen.yOffset);
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
@@ -106,7 +107,7 @@ public class Game extends Canvas implements Runnable {
 			}
 
 			if (shouldDraw) {
-//				frames++;
+				frames++;
 				draw();
 			}
 
