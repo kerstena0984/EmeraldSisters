@@ -61,8 +61,10 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
+		screen.render(0, 0, 0, 0);
+
 		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = i * updateCount;
+			pixels[i] = screen.pixels[i];
 		}
 
 		Graphics g = bstrat.getDrawGraphics();
@@ -82,6 +84,8 @@ public class Game extends Canvas implements Runnable {
 		long lastTimer = System.currentTimeMillis();
 		int prints = 0;
 		int totalFrames = 0;
+		
+		init();
 
 		while (running) {
 			long now = System.nanoTime();
