@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import com.mattdavben.emerald.entity.Hero;
 import com.mattdavben.emerald.graphics.Screen;
 import com.mattdavben.emerald.graphics.SpriteSheet;
 import com.mattdavben.emerald.level.Level;
@@ -30,10 +31,23 @@ public class Game extends Canvas implements Runnable {
 	private Screen screen;
 	private InputHandler input;
 	private Level level;
+	private Hero hero;
+	
+	private int walkDist, direction;
+	private SpriteSheet characterSheet;
+	private int characterX, characterY;
 
 	public Game() {
 		input = new InputHandler(this);
 		level = new Level(WIDTH, HEIGHT);
+		hero = new Hero();
+		characterX = WIDTH / 2;
+		characterY = HEIGHT / 2;
+		try {
+			characterSheet = new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/Kate.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void start() {
@@ -46,6 +60,8 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
+		level.add(hero);
+
 		try {
 			screen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/SpriteSheet.png"))));
 		} catch (IOException e) {
@@ -54,10 +70,30 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void update() {
-		if (input.up.isDown) screen.yOffset--;
-		else if (input.down.isDown) screen.yOffset++;
-		if (input.left.isDown) screen.xOffset--;
-		else if (input.right.isDown) screen.xOffset++;
+		if (input.up.isDown) {
+			screen.yOffset--;
+			walkDist++;
+			direction = 0;
+			characterY--;
+		}
+		else if (input.down.isDown) {
+			screen.yOffset++;
+			walkDist++;
+			direction = 1;
+			characterY++;
+		}
+		if (input.left.isDown) {
+			screen.xOffset--;
+			walkDist++;
+			direction = 2;
+			characterX--;
+		}
+		else if (input.right.isDown) {
+			screen.xOffset++;
+			walkDist++;
+			direction = 3;
+			characterX++;
+		}
 	}
 
 	private void draw() {
@@ -69,6 +105,22 @@ public class Game extends Canvas implements Runnable {
 
 		screen.clear();
 		level.render(screen, screen.xOffset, screen.yOffset);
+
+		{
+			int walkingSpeed = 3;
+			int switchSprite = ((walkDist >> walkingSpeed) & 1);
+			int switchFeet = ((walkDist >> walkingSpeed) & 3);
+			int flipSprite = ((walkDist >> 4) & 1);
+			int nextSprite = 0;
+			if (switchFeet == 0 || switchFeet == 2) nextSprite = 0;
+			if (switchFeet == 1) nextSprite = 1;
+			if (switchFeet == 3) nextSprite = 2;
+
+			if (direction == 0) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 6 + switchSprite, 0 + flipSprite);
+			if (direction == 1) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 0 + nextSprite, 0);
+			if (direction == 2) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 3 + nextSprite, 0);
+			if (direction == 3) screen.renderSprite(characterSheet, characterX - 8, characterY - 16, 3 + nextSprite, 1);
+		}
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
@@ -91,7 +143,7 @@ public class Game extends Canvas implements Runnable {
 		long lastTimer = System.currentTimeMillis();
 		int prints = 0;
 		int totalFrames = 0;
-		
+
 		init();
 
 		while (running) {

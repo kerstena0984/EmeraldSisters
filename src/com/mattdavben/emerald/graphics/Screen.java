@@ -31,8 +31,36 @@ public class Screen {
 			for (int x = 0; x < BITS_PER_SPRITE; x++) {
 				if (x + xPosition < 0 || x + xPosition >= width) continue;
 				int pixel = sheet.pixels[x + y * sheet.width + tileOffset];
+				if (pixel != 0x020202 && pixel != 0xff00ff && pixel != 0x7F007F) {
+					pixels[(x + xPosition) + (y + yPosition) * width] = pixel;
+				}
+			}
+		}
+	}
 
-				pixels[(x + xPosition) + (y + yPosition) * width] = pixel;
+	public void renderSprite(SpriteSheet spriteSheet, int xPosition, int yPosition, int tile, int mirrorBits) {
+		int spriteWidth = 16;
+		int spriteHeight = 24;
+		xPosition -= xOffset;
+		yPosition -= yOffset;
+		int xTile = tile % (256 / 16);
+		int yTile = tile / (256 / 24);
+		boolean mirrorX = (mirrorBits & 0x01) > 0;
+		boolean mirrorY = (mirrorBits & 0x02) > 0;
+		int tileOffset = (xTile * spriteWidth) + (yTile * spriteHeight) * sheet.width;
+
+		for (int y = 0; y < spriteHeight; y++) {
+			int ys = y;
+			if (mirrorY) ys = (spriteHeight - 1) - y;
+			if (y + yPosition < 0 || y + yPosition >= height) continue;
+			for (int x = 0; x < spriteWidth; x++) {
+				if (x + xPosition < 0 || x + xPosition >= width) continue;
+				int xs = x;
+				if (mirrorX) xs = (spriteWidth - 1) - x;
+				int pixel = spriteSheet.pixels[xs + ys * spriteSheet.width + tileOffset];
+				if (pixel != 0x020202 && pixel != 0xff00ff && pixel != 0x7F007F) {
+					pixels[(x + xPosition) + (y + yPosition) * width] = pixel;
+				}
 			}
 		}
 	}
