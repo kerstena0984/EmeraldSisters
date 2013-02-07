@@ -28,9 +28,10 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	private int updateCount;
 	private Screen screen;
+	private InputHandler input;
 
 	public Game() {
-
+		input = new InputHandler(this);
 	}
 
 	private void start() {
@@ -52,6 +53,10 @@ public class Game extends Canvas implements Runnable {
 
 	private void update() {
 		updateCount++;
+		if (input.up.isDown) screen.yOffset--;
+		if (input.down.isDown) screen.yOffset++;
+		if (input.left.isDown) screen.xOffset--;
+		if (input.right.isDown) screen.xOffset++;
 	}
 
 	private void draw() {
@@ -61,6 +66,7 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
+		screen.clear();
 		screen.render(0, 0, 0, 0);
 
 		for (int i = 0; i < pixels.length; i++) {
@@ -100,7 +106,7 @@ public class Game extends Canvas implements Runnable {
 			}
 
 			if (shouldDraw) {
-				frames++;
+//				frames++;
 				draw();
 			}
 
