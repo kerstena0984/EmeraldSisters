@@ -55,9 +55,9 @@ public class Game extends Canvas implements Runnable {
 
 	private void update() {
 		if (input.up.isDown) screen.yOffset--;
-		if (input.down.isDown) screen.yOffset++;
+		else if (input.down.isDown) screen.yOffset++;
 		if (input.left.isDown) screen.xOffset--;
-		if (input.right.isDown) screen.xOffset++;
+		else if (input.right.isDown) screen.xOffset++;
 	}
 
 	private void draw() {
