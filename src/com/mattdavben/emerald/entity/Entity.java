@@ -19,6 +19,10 @@ public class Entity {
 		}
 	}
 	
+	public void update() {
+		
+	}
+	
 	public void draw(Screen screen){
 		
 	}

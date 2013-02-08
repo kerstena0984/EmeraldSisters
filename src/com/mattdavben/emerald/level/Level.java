@@ -17,6 +17,12 @@ public class Level {
 
 		pixels = new int[width * height];
 	}
+	
+	public void update() {
+		for (Entity entity : entities) {
+			entity.update();
+		}
+	}
 
 	public void render(Screen screen, int xScroll, int yScroll) {
 		screen.setOffset(xScroll, yScroll);

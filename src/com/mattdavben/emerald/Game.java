@@ -29,14 +29,14 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	private Screen screen;
-	private InputHandler input;
+	private InputHandler input = new InputHandler(this);
 	private Level level;
 	private Hero hero;
 
 	public Game() {
-		input = new InputHandler(this);
 		level = new Level(WIDTH, HEIGHT);
 		hero = new Hero();
+		hero.input(input);
 	}
 
 	private void start() {
@@ -57,28 +57,9 @@ public class Game extends Canvas implements Runnable {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void update() {
-		int xMove = 0;
-		int yMove = 0;
-		if (input.up.isDown) {
-			screen.yOffset--;
-			yMove--;
-		}
-		else if (input.down.isDown) {
-			screen.yOffset++;
-			yMove++;
-		}
-		if (input.left.isDown) {
-			screen.xOffset--;
-			xMove--;
-		}
-		else if (input.right.isDown) {
-			screen.xOffset++;
-			xMove++;
-		}
-		hero.move(xMove, yMove);
-		hero.currentTile(level);
+		level.update();
 	}
 
 	private void draw() {
@@ -143,18 +124,20 @@ public class Game extends Canvas implements Runnable {
 			}
 		}
 	}
-	
+
 	private int getYScroll() {
 		int yScroll = hero.getY() - screen.height / 2;
-//		if (yScroll < 0) yScroll = 0;
-//		if (yScroll > (level.getHeight() - (screen.height / 16)) << 4) yScroll = (level.getHeight() - (screen.height / 16)) << 4;
+		// if (yScroll < 0) yScroll = 0;
+		// if (yScroll > (level.getHeight() - (screen.height / 16)) << 4)
+		// yScroll = (level.getHeight() - (screen.height / 16)) << 4;
 		return yScroll;
 	}
 
 	private int getXScroll() {
 		int xScroll = hero.getX() - screen.width / 2;
-//		if (xScroll < 0) xScroll = 0;
-//		if (xScroll > (level.getWidth() - (screen.width / 16)) << 4) xScroll = (level.getWidth() - (screen.width / 16)) << 4;
+		// if (xScroll < 0) xScroll = 0;
+		// if (xScroll > (level.getWidth() - (screen.width / 16)) << 4) xScroll
+		// = (level.getWidth() - (screen.width / 16)) << 4;
 		return xScroll;
 	}
 

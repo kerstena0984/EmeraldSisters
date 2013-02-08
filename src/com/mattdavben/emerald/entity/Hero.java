@@ -1,15 +1,51 @@
 package com.mattdavben.emerald.entity;
 
+import com.mattdavben.emerald.InputHandler;
 import com.mattdavben.emerald.graphics.Screen;
 import com.mattdavben.emerald.level.Level;
 
 public class Hero extends Entity {
 
 	private int walkDist, direction;
+	private InputHandler input;
+
+	int steps = 0;
+	int xMove = 0;
+	int yMove = 0;
 
 	public Hero() {
-		x = 40;
-		y = 40;
+		x = 24;
+		y = 24;
+	}
+
+	public void update() {
+		input.tick();
+
+		if (input.up.isDown) {
+			yMove = -1;
+		} else if (input.down.isDown) {
+			yMove = 1;
+		}
+		if (input.left.isDown) {
+			xMove = -1;
+		} else if (input.right.isDown) {
+			xMove = 1;
+		}
+
+		if (input.up.wasClicked || input.down.wasClicked || input.left.wasClicked || input.right.wasClicked) {
+			steps = 16;
+		}
+
+		if (steps > 0) {
+			if (xMove != 0) this.move(xMove, 0);
+			else if (yMove != 0) this.move(0, yMove);
+			steps--;
+		}
+
+		if (steps == 0) {
+			xMove = 0;
+			yMove = 0;
+		}
 	}
 
 	public void draw(Screen screen) {
@@ -28,6 +64,10 @@ public class Hero extends Entity {
 		if (direction == 3) screen.renderSprite(sheet, x - 8, y - 16, 3 + nextSprite, 1);
 	}
 
+	public void walk(int x, int y) {
+		move(x, y);
+	}
+
 	public void move(int xMove, int yMove) {
 		if (xMove != 0 || yMove != 0) {
 			walkDist++;
@@ -44,9 +84,8 @@ public class Hero extends Entity {
 			y += yMove;
 		}
 	}
-	
-	public int currentTile(Level level){
-		System.out.println(x / 16 + " " + y / 16);
+
+	public int currentTile(Level level) {
 		return (x + y * level.getWidth());
 	}
 
@@ -56,5 +95,9 @@ public class Hero extends Entity {
 
 	public int getY() {
 		return y;
+	}
+
+	public void input(InputHandler input) {
+		this.input = input;
 	}
 }

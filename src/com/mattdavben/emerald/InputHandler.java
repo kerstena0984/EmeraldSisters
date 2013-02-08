@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InputHandler implements KeyListener {
-	
+
 	private List<Key> keys = new ArrayList<Key>();
 
 	public class Key {
 		public boolean isDown, wasClicked;
+		private int absorbs, presses;
 
 		public Key() {
 			keys.add(this);
@@ -19,6 +20,18 @@ public class InputHandler implements KeyListener {
 		public void toggle(boolean pressed) {
 			if (pressed != isDown) {
 				isDown = pressed;
+			}
+			if (pressed) {
+				presses++;
+			}
+		}
+
+		public void tick() {
+			if (absorbs < presses) {
+				absorbs++;
+				wasClicked = true;
+			} else {
+				wasClicked = false;
 			}
 		}
 
@@ -31,6 +44,12 @@ public class InputHandler implements KeyListener {
 
 	public InputHandler(Game game) {
 		game.addKeyListener(this);
+	}
+
+	public void tick() {
+		for (int i = 0; i < keys.size(); i++) {
+			keys.get(i).tick();
+		}
 	}
 
 	public void keyPressed(KeyEvent ke) {
