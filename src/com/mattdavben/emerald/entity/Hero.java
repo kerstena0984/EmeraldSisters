@@ -15,24 +15,26 @@ public class Hero extends Entity {
 
 	public Hero() {
 		x = 24;
-		y = 24;
+		y = 22;
 	}
 
 	public void update() {
 		input.tick();
 
-		if (input.up.isDown) {
-			yMove = -1;
-		} else if (input.down.isDown) {
-			yMove = 1;
-		}
-		if (input.left.isDown) {
-			xMove = -1;
-		} else if (input.right.isDown) {
-			xMove = 1;
+		if (steps == 0) {
+			if (input.up.isDown) {
+				yMove = -1;
+			} else if (input.down.isDown) {
+				yMove = 1;
+			}
+			if (input.left.isDown) {
+				xMove = -1;
+			} else if (input.right.isDown) {
+				xMove = 1;
+			}
 		}
 
-		if (input.up.wasClicked || input.down.wasClicked || input.left.wasClicked || input.right.wasClicked) {
+		if (steps == 0 && (movementWasClicked())) {
 			steps = 16;
 		}
 
@@ -46,6 +48,10 @@ public class Hero extends Entity {
 			xMove = 0;
 			yMove = 0;
 		}
+	}
+
+	private boolean movementWasClicked() {
+		return (input.down.wasClicked || input.up.wasClicked || input.left.wasClicked || input.right.wasClicked);
 	}
 
 	public void draw(Screen screen) {
