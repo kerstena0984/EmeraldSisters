@@ -19,7 +19,7 @@ public class Screen {
 		pixels = new int[width * height];
 	}
 
-	public void render(int xPosition, int yPosition, int tile, int bits) {
+	public void renderTile(int xPosition, int yPosition, int tile) {
 		xPosition -= xOffset;
 		yPosition -= yOffset;
 		int xTile = tile % 32;
@@ -75,4 +75,5 @@ public class Screen {
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 	}
+
 }

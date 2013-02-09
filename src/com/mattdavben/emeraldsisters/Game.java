@@ -34,7 +34,7 @@ public class Game extends Canvas implements Runnable {
 	private Hero hero;
 
 	public Game() {
-		level = new Level(WIDTH, HEIGHT);
+		level = new Level();
 		hero = new Hero();
 		hero.input(input);
 	}
@@ -133,17 +133,15 @@ public class Game extends Canvas implements Runnable {
 
 	private int getYScroll() {
 		int yScroll = hero.getY() - screen.height / 2;
-		// if (yScroll < 0) yScroll = 0;
-		// if (yScroll > (level.getHeight() - (screen.height / 16)) << 4)
-		// yScroll = (level.getHeight() - (screen.height / 16)) << 4;
+		if (yScroll < 0) yScroll = 0;
+		if (yScroll > (level.getHeight() - (screen.height / 16)) << 4) yScroll = (level.getHeight() - (screen.height / 16)) << 4;
 		return yScroll;
 	}
 
 	private int getXScroll() {
 		int xScroll = hero.getX() - screen.width / 2;
-		// if (xScroll < 0) xScroll = 0;
-		// if (xScroll > (level.getWidth() - (screen.width / 16)) << 4) xScroll
-		// = (level.getWidth() - (screen.width / 16)) << 4;
+		if (xScroll < 0) xScroll = 0;
+		if (xScroll > (level.getWidth() - (screen.width / 16)) << 4) xScroll = (level.getWidth() - (screen.width / 16)) << 4;
 		return xScroll;
 	}
 
