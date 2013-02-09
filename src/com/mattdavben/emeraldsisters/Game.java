@@ -57,7 +57,7 @@ public class Game extends Canvas implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void update() {
 		level.update();
 	}
@@ -98,6 +98,12 @@ public class Game extends Canvas implements Runnable {
 		init();
 
 		while (running) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
 			long now = System.nanoTime();
 			unprocessed += (now - lastTime) / nsPerTick;
 			lastTime = now;
@@ -108,8 +114,6 @@ public class Game extends Canvas implements Runnable {
 				unprocessed -= 1;
 				shouldDraw = true;
 			}
-			
-			
 
 			if (shouldDraw) {
 				frames++;
