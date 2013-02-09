@@ -1,8 +1,8 @@
-package com.mattdavben.emerald.entity;
+package com.mattdavben.emeraldsisters.entity;
 
-import com.mattdavben.emerald.InputHandler;
-import com.mattdavben.emerald.graphics.Screen;
-import com.mattdavben.emerald.level.Level;
+import com.mattdavben.emeraldsisters.InputHandler;
+import com.mattdavben.emeraldsisters.graphics.Screen;
+import com.mattdavben.emeraldsisters.level.Level;
 
 public class Hero extends Entity {
 

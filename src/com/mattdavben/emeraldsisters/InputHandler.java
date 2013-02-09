@@ -1,4 +1,4 @@
-package com.mattdavben.emerald;
+package com.mattdavben.emeraldsisters;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

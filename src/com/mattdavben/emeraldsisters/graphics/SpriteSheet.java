@@ -1,4 +1,4 @@
-package com.mattdavben.emerald.graphics;
+package com.mattdavben.emeraldsisters.graphics;
 
 import java.awt.image.BufferedImage;
 

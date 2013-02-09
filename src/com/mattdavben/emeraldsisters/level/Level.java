@@ -1,9 +1,9 @@
-package com.mattdavben.emerald.level;
+package com.mattdavben.emeraldsisters.level;
 
 import java.util.ArrayList;
 
-import com.mattdavben.emerald.entity.Entity;
-import com.mattdavben.emerald.graphics.Screen;
+import com.mattdavben.emeraldsisters.entity.Entity;
+import com.mattdavben.emeraldsisters.graphics.Screen;
 
 public class Level {
 	private ArrayList<Entity> entities = new ArrayList<Entity>();

@@ -1,11 +1,11 @@
-package com.mattdavben.emerald.entity;
+package com.mattdavben.emeraldsisters.entity;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.mattdavben.emerald.graphics.Screen;
-import com.mattdavben.emerald.graphics.SpriteSheet;
+import com.mattdavben.emeraldsisters.graphics.Screen;
+import com.mattdavben.emeraldsisters.graphics.SpriteSheet;
 
 public class Entity {
 	protected int x, y;

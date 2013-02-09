@@ -1,4 +1,4 @@
-package com.mattdavben.emerald;
+package com.mattdavben.emeraldsisters;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -12,10 +12,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import com.mattdavben.emerald.entity.Hero;
-import com.mattdavben.emerald.graphics.Screen;
-import com.mattdavben.emerald.graphics.SpriteSheet;
-import com.mattdavben.emerald.level.Level;
+import com.mattdavben.emeraldsisters.entity.Hero;
+import com.mattdavben.emeraldsisters.graphics.Screen;
+import com.mattdavben.emeraldsisters.graphics.SpriteSheet;
+import com.mattdavben.emeraldsisters.level.Level;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -108,6 +108,8 @@ public class Game extends Canvas implements Runnable {
 				unprocessed -= 1;
 				shouldDraw = true;
 			}
+			
+			
 
 			if (shouldDraw) {
 				frames++;
