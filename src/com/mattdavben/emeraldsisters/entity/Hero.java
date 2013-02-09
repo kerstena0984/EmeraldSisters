@@ -9,9 +9,9 @@ public class Hero extends Entity {
 	private int walkDist, direction;
 	private InputHandler input;
 
-	int steps = 0;
-	int xMove = 0;
-	int yMove = 0;
+	private int steps = 0;
+	private int xMove = 0;
+	private int yMove = 0;
 
 	public Hero() {
 		x = 24;
@@ -23,19 +23,19 @@ public class Hero extends Entity {
 
 		if (steps == 0) {
 			if (input.up.isDown) {
+				steps = 16;
 				yMove = -1;
 			} else if (input.down.isDown) {
+				steps = 16;
 				yMove = 1;
 			}
 			if (input.left.isDown) {
+				steps = 16;
 				xMove = -1;
 			} else if (input.right.isDown) {
+				steps = 16;
 				xMove = 1;
 			}
-		}
-
-		if (steps == 0 && (movementWasClicked())) {
-			steps = 16;
 		}
 
 		if (steps > 0) {
@@ -48,10 +48,6 @@ public class Hero extends Entity {
 			xMove = 0;
 			yMove = 0;
 		}
-	}
-
-	private boolean movementWasClicked() {
-		return (input.down.wasClicked || input.up.wasClicked || input.left.wasClicked || input.right.wasClicked);
 	}
 
 	public void draw(Screen screen) {
@@ -77,10 +73,10 @@ public class Hero extends Entity {
 	public void move(int xMove, int yMove) {
 		if (xMove != 0 || yMove != 0) {
 			walkDist++;
-			if (xMove < 0) direction = 2;
-			if (xMove > 0) direction = 3;
 			if (yMove < 0) direction = 0;
 			if (yMove > 0) direction = 1;
+			if (xMove < 0) direction = 2;
+			if (xMove > 0) direction = 3;
 		}
 
 		if (xMove != 0) {
