@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import com.mattdavben.emeraldsisters.entity.Entity;
 import com.mattdavben.emeraldsisters.graphics.Screen;
 import com.mattdavben.emeraldsisters.graphics.SpriteSheet;
+import com.mattdavben.emeraldsisters.tile.GroundTile;
 import com.mattdavben.emeraldsisters.tile.Tile;
 import com.mattdavben.emeraldsisters.tile.TileConverter;
 
@@ -70,7 +71,7 @@ public class Level {
 	}
 
 	public Tile getTile(int xTile, int yTile) {
-		if (xTile < 0 || yTile < 0 || xTile >= width || yTile >= height) return new Tile(1);
+		if (xTile < 0 || yTile < 0 || xTile >= width || yTile >= height) return new GroundTile(1);
 		return tiles[xTile + yTile * width];
 	}
 
