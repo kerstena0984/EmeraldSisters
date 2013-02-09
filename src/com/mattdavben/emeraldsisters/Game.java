@@ -20,9 +20,9 @@ import com.mattdavben.emeraldsisters.level.Level;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	private static final int HEIGHT = 320;
+	private static final int HEIGHT = 180;
 	private static final int WIDTH = HEIGHT * 16 / 10;
-	private static final byte SCALE = 2;
+	private static final byte SCALE = 3;
 	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.0.1";
 
 	private boolean running = false;
@@ -39,12 +39,12 @@ public class Game extends Canvas implements Runnable {
 		hero.input(input);
 	}
 
-	private void start() {
+	public synchronized void start() {
 		running = true;
 		new Thread(this).start();
 	}
 
-	private void stop() {
+	public synchronized void stop() {
 		running = false;
 	}
 
