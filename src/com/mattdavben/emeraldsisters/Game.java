@@ -23,7 +23,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int HEIGHT = 208;
 	private static final int WIDTH = HEIGHT * 16 / 9;
 	private static final byte SCALE = 3;
-	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.0.1";
+	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.0.3";
 
 	private boolean running = false;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
