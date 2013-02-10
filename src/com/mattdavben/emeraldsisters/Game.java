@@ -20,8 +20,8 @@ import com.mattdavben.emeraldsisters.level.Level;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	private static final int HEIGHT = 180;
-	private static final int WIDTH = HEIGHT * 16 / 10;
+	private static final int HEIGHT = 208;
+	private static final int WIDTH = HEIGHT * 16 / 9;
 	private static final byte SCALE = 3;
 	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.0.1";
 
