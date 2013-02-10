@@ -6,10 +6,12 @@ import javax.imageio.ImageIO;
 
 import com.mattdavben.emeraldsisters.graphics.Screen;
 import com.mattdavben.emeraldsisters.graphics.SpriteSheet;
+import com.mattdavben.emeraldsisters.level.Level;
 
 public class Entity {
 	protected int x, y;
 	protected SpriteSheet sheet;
+	protected Level level;
 
 	public Entity() {
 		try {
@@ -18,16 +20,20 @@ public class Entity {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void update() {
-		
+
 	}
-	
-	public void draw(Screen screen){
-		
+
+	public void draw(Screen screen) {
+
 	}
-	
-	public SpriteSheet getSpriteSheet(){
+
+	public SpriteSheet getSpriteSheet() {
 		return sheet;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
 	}
 }

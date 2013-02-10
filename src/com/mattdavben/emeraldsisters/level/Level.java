@@ -33,7 +33,7 @@ public class Level {
 
 		for (int i = 0; i < sheet.pixels.length; i++) {
 			Tile tile = TileConverter.convert(sheet.pixels[i]);
-			tiles[i] = tile;
+			tiles[i] = tile.setXY(i % sheet.width, i / sheet.width);
 		}
 	}
 
@@ -76,6 +76,7 @@ public class Level {
 	}
 
 	public void add(Entity entity) {
+		entity.setLevel(this);
 		entities.add(entity);
 	}
 

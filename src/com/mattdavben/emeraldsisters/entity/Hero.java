@@ -2,7 +2,6 @@ package com.mattdavben.emeraldsisters.entity;
 
 import com.mattdavben.emeraldsisters.InputHandler;
 import com.mattdavben.emeraldsisters.graphics.Screen;
-import com.mattdavben.emeraldsisters.level.Level;
 
 public class Hero extends Entity {
 
@@ -71,6 +70,8 @@ public class Hero extends Entity {
 	}
 
 	public void move(int xMove, int yMove) {
+		boolean mayPass = true;
+
 		if (xMove != 0 || yMove != 0) {
 			walkDist++;
 			if (yMove < 0) direction = 0;
@@ -78,17 +79,28 @@ public class Hero extends Entity {
 			if (xMove < 0) direction = 2;
 			if (xMove > 0) direction = 3;
 		}
+		
+		boolean nextTileMayPass = !level.getTile((getXTile()) + xMove, (getYTile()) + yMove).mayPass();
 
-		if (xMove != 0) {
-			x += xMove;
+		if (nextTileMayPass && x % 16 == 8 && y % 16 == 6) {
+			mayPass = false;
 		}
-		if (yMove != 0) {
-			y += yMove;
+
+		if (mayPass) {
+			if (xMove != 0) {
+				x += xMove;
+			} else if (yMove != 0) {
+				y += yMove;
+			}
 		}
 	}
 
-	public int currentTile(Level level) {
-		return (x + y * level.getWidth());
+	public int getXTile() {
+		return x / 16;
+	}
+
+	public int getYTile() {
+		return y / 16;
 	}
 
 	public int getX() {

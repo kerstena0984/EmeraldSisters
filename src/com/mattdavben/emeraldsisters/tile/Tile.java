@@ -12,4 +12,10 @@ public class Tile {
 	public boolean mayPass() {
 		return true;
 	}
+	
+	public Tile setXY(int x, int y){
+		this.x = x;
+		this.y = y;
+		return this;
+	}
 }
