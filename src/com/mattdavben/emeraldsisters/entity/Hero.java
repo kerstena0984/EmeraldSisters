@@ -2,6 +2,8 @@ package com.mattdavben.emeraldsisters.entity;
 
 import com.mattdavben.emeraldsisters.InputHandler;
 import com.mattdavben.emeraldsisters.graphics.Screen;
+import com.mattdavben.emeraldsisters.tile.InteractiveTile;
+import com.mattdavben.emeraldsisters.tile.Tile;
 
 public class Hero extends Entity {
 
@@ -19,6 +21,7 @@ public class Hero extends Entity {
 
 	public void update() {
 		input.tick();
+		Tile nextTile = null;
 
 		if (steps == 0) {
 			if (input.up.isDown) {
@@ -46,6 +49,19 @@ public class Hero extends Entity {
 		if (steps == 0) {
 			xMove = 0;
 			yMove = 0;
+		}
+
+		if (xMove != 0 && yMove != 0) nextTile = level.getTile(getXTile() + xMove, getYTile() + yMove);
+		else {
+			if (direction == 0) nextTile = level.getTile(getXTile(), getYTile() - 1);
+			if (direction == 1) nextTile = level.getTile(getXTile(), getYTile() + 1);
+			if (direction == 2) nextTile = level.getTile(getXTile() - 1, getYTile());
+			if (direction == 3) nextTile = level.getTile(getXTile() + 1, getYTile());
+		}
+
+		if (nextTile.isInteractive() && input.interact.wasClicked) {
+			InteractiveTile interactiveTile = (InteractiveTile) nextTile;
+			interactiveTile.activate();
 		}
 	}
 
@@ -79,10 +95,11 @@ public class Hero extends Entity {
 			if (xMove < 0) direction = 2;
 			if (xMove > 0) direction = 3;
 		}
-		
-		boolean nextTileMayPass = !level.getTile((getXTile()) + xMove, (getYTile()) + yMove).mayPass();
 
-		if (nextTileMayPass && x % 16 == 8 && y % 16 == 6) {
+		boolean nextTileMayPass = !level.getTile((getXTile()) + xMove, (getYTile()) + yMove).mayPass();
+		boolean centeredOnTile = x % 16 == 8 && y % 16 == 6;
+
+		if (nextTileMayPass && centeredOnTile) {
 			mayPass = false;
 		}
 

@@ -41,6 +41,7 @@ public class InputHandler implements KeyListener {
 	public Key down = new Key();
 	public Key left = new Key();
 	public Key right = new Key();
+	public Key interact = new Key();
 
 	public InputHandler(Game game) {
 		game.addKeyListener(this);
@@ -65,6 +66,7 @@ public class InputHandler implements KeyListener {
 		if (ke.getKeyCode() == KeyEvent.VK_S) down.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_A) left.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_D) right.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_SPACE) interact.toggle(pressed);
 	}
 
 	public void keyTyped(KeyEvent ke) {

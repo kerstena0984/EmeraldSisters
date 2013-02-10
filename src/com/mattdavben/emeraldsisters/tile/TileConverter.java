@@ -9,7 +9,7 @@ public class TileConverter {
 		case 0xA0A0A0:
 			return new SolidTile(1, 2);
 		case 0x7D110B:
-			return new SolidTile(1, 3);
+			return new InteractiveTile(1, 3, 4);
 		default:
 			return new GroundTile(0);
 		}

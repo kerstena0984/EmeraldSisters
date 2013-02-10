@@ -2,20 +2,29 @@ package com.mattdavben.emeraldsisters.tile;
 
 import com.mattdavben.emeraldsisters.graphics.Screen;
 
-public class SolidTile extends Tile{
-	protected int underTile, overTile;
+public class InteractiveTile extends SolidTile {
+	
+	private int alternateOverTile;
 
-	public SolidTile(int underTile, int overTile) {
+	public InteractiveTile(int underTile, int overTileDeactivated, int overTileActivated) {
+		super(underTile, overTileDeactivated);
+		
+		this.overTile = overTileDeactivated;
 		this.underTile = underTile;
-		this.overTile = overTile;
+		alternateOverTile = overTileActivated;
 	}
-
+	
 	public void render(Screen screen, int xPositionStartRender, int yPositionStartRender) {
 		screen.renderTile(xPositionStartRender * 16 + 0, yPositionStartRender * 16 + 0, underTile);
 		screen.renderTile(xPositionStartRender * 16 + 0, yPositionStartRender * 16 + 0, overTile);
 	}
-
-	public boolean mayPass() {
-		return false;
+	
+	public void activate() {
+		overTile = alternateOverTile;
 	}
+	
+	public boolean isInteractive() {
+		return true;
+	}
+
 }
