@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import com.mattdavben.emeraldsisters.entity.Hero;
+import com.mattdavben.emeraldsisters.graphics.Fonts;
 import com.mattdavben.emeraldsisters.graphics.Screen;
 import com.mattdavben.emeraldsisters.graphics.SpriteSheet;
 import com.mattdavben.emeraldsisters.level.Level;
@@ -23,7 +24,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int HEIGHT = 208;
 	private static final int WIDTH = HEIGHT * 16 / 9;
 	private static final byte SCALE = 3;
-	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.0.4";
+	private static final String NAME = "Emerald Sisters | Pre-Alpha 0.1.1";
 
 	private boolean running = false;
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -65,13 +66,15 @@ public class Game extends Canvas implements Runnable {
 	private void draw() {
 		BufferStrategy bstrat = this.getBufferStrategy();
 		if (bstrat == null) {
-			createBufferStrategy(3);
+			createBufferStrategy(2);
 			return;
 		}
 
 		screen.clear();
 		level.render(screen, screen.xOffset, screen.yOffset);
 		level.renderSprites(screen, getXScroll(), getYScroll());
+		String msg = "Emerald";
+		new Fonts().draw(msg, screen, hero.getX() - (msg.length() * 8 / 2), hero.getY() - 28, 0xFFFFFF);
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
