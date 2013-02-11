@@ -9,6 +9,8 @@ public class Hero extends Entity {
 
 	private int walkDist, direction;
 	private InputHandler input;
+	private int changingDirection = 0;
+	private final int CHANGE_DIRECTION_TIME = 6;
 
 	private int steps = 0;
 	private int xMove = 0;
@@ -22,20 +24,39 @@ public class Hero extends Entity {
 	public void update() {
 		input.tick();
 		Tile nextTile = null;
+		boolean movementButtonIsDown = input.up.isDown || input.down.isDown || input.left.isDown || input.right.isDown;
 
-		if (steps == 0) {
+		if (direction != 0 && input.up.wasClicked) {
+			direction = 0;
+			changingDirection = CHANGE_DIRECTION_TIME;
+		}
+		if (direction != 1 && input.down.wasClicked) {
+			direction = 1;
+			changingDirection = CHANGE_DIRECTION_TIME;
+		}
+		if (direction != 2 && input.left.wasClicked) {
+			direction = 2;
+			changingDirection = CHANGE_DIRECTION_TIME;
+		}
+		if (direction != 3 && input.right.wasClicked) {
+			direction = 3;
+			changingDirection = CHANGE_DIRECTION_TIME;
+		}
+
+		if (changingDirection > 0) changingDirection--;
+		else changingDirection = 0;
+
+		if (steps == 0 && changingDirection == 0) {
+			if (movementButtonIsDown) steps = 16;
+
 			if (input.up.isDown) {
-				steps = 16;
 				yMove = -1;
 			} else if (input.down.isDown) {
-				steps = 16;
 				yMove = 1;
 			}
 			if (input.left.isDown) {
-				steps = 16;
 				xMove = -1;
 			} else if (input.right.isDown) {
-				steps = 16;
 				xMove = 1;
 			}
 		}
