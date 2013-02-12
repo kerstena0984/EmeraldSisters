@@ -32,7 +32,7 @@ public class Screen {
 			for (int x = 0; x < LETTER_BITS_PER_SPRITE; x++) {
 				if (x + xPosition < 0 || x + xPosition >= width) continue;
 				int pixel = sheet.pixels[x + y * sheet.width + tileOffset];
-				if (pixel != 0x020202 && pixel != 0xff00ff && pixel != 0x7F007F) {
+				if (pixel != 0x020202) {
 					pixels[(x + xPosition) + (y + yPosition) * width] = colorOfText;
 				}
 			}
@@ -51,7 +51,7 @@ public class Screen {
 			for (int x = 0; x < BITS_PER_SPRITE; x++) {
 				if (x + xPosition < 0 || x + xPosition >= width) continue;
 				int pixel = sheet.pixels[x + y * sheet.width + tileOffset];
-				if (pixel != 0x020202 && pixel != 0xff00ff && pixel != 0x7F007F) {
+				if (pixel != 0xff00ff && pixel != 0x7F007F) {
 					pixels[(x + xPosition) + (y + yPosition) * width] = pixel;
 				}
 			}
@@ -78,7 +78,7 @@ public class Screen {
 				int xs = x;
 				if (mirrorX) xs = (spriteWidth - 1) - x;
 				int pixel = spriteSheet.pixels[xs + ys * spriteSheet.width + tileOffset];
-				if (pixel != 0x020202 && pixel != 0xff00ff && pixel != 0x7F007F) {
+				if (pixel != 0xff00ff && pixel != 0x7F007F) {
 					pixels[(x + xPosition) + (y + yPosition) * width] = pixel;
 				}
 			}

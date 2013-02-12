@@ -40,12 +40,12 @@ public class Game extends Canvas implements Runnable {
 		hero.input(input);
 	}
 
-	public synchronized void start() {
+	public void start() {
 		running = true;
 		new Thread(this).start();
 	}
 
-	public synchronized void stop() {
+	public void stop() {
 		running = false;
 	}
 
@@ -70,16 +70,17 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		screen.clear();
 		level.render(screen, screen.xOffset, screen.yOffset);
 		level.renderSprites(screen, getXScroll(), getYScroll());
 		String msg = "Emerald";
 		new Fonts().draw(msg, screen, hero.getX() - (msg.length() * 8 / 2), hero.getY() - 28, 0xFFFFFF);
 
-		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = screen.pixels[i];
-		}
+//		for (int i = 0; i < pixels.length; i++) {
+//			pixels[i] = screen.pixels[i];
+//		}
 
+		System.arraycopy(screen.pixels, 0, pixels, 0, pixels.length);
+		
 		Graphics g = bstrat.getDrawGraphics();
 
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -102,7 +103,7 @@ public class Game extends Canvas implements Runnable {
 
 		while (running) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(5);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

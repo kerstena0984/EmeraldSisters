@@ -49,12 +49,10 @@ public class Level {
 		int levelTilesWide = sheet.width;
 		int levelTilesHigh = sheet.height;
 
-		
 		int tilesToRenderX = levelTilesWide;
 		int tilesToRenderY = levelTilesHigh;
 		if (screen.width / 16 > levelTilesWide) tilesToRenderX = (levelTilesWide + (screen.width - levelTilesWide)) / 16;
 		if (screen.height / 16 > levelTilesHigh) tilesToRenderY = (levelTilesHigh + (screen.height - levelTilesHigh)) / 16;
-
 
 		for (int yTile = 0; yTile <= tilesToRenderY; yTile++) {
 			for (int xTile = 0; xTile <= tilesToRenderX; xTile++) {
@@ -69,7 +67,7 @@ public class Level {
 			entity.draw(screen);
 		}
 	}
-
+	
 	public Tile getTile(int xTile, int yTile) {
 		if (xTile < 0 || yTile < 0 || xTile >= width || yTile >= height) return new SolidTile(1,2);
 		return tiles[xTile + yTile * width];
