@@ -6,6 +6,7 @@ A two-dimensional tile-based roleplaying game written in the Java programming la
 Features
 ==============
 ~> Unique narrative-based character progression system
+
 ~> Expansive and engaging world
 
 Authors
