@@ -5,11 +5,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-
 public class Main extends StateBasedGame {
 
 	private final static String NAME = "Emerald Sisters | Pre-Alpha 0.1.0";
 	public static final int play = 1;
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 600;
 
 	public Main(String name) {
 		super(name);
@@ -25,7 +26,7 @@ public class Main extends StateBasedGame {
 		AppGameContainer agc;
 		try {
 			agc = new AppGameContainer(new Main(NAME));
-			agc.setDisplayMode(800, 600, false);
+			agc.setDisplayMode(WIDTH, HEIGHT, false);
 			agc.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

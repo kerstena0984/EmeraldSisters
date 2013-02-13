@@ -11,8 +11,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class PlayState extends BasicGameState {
 
 	private Image level;
-	private float shiftX;
-	private float shiftY;
 	private Player player;
 
 	public PlayState(int state) {
@@ -25,29 +23,24 @@ public class PlayState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		level = new Image("res/sample.png");
 		level.setFilter(Image.FILTER_NEAREST);
-		player = new Player();
-
-		shiftX = player.getXPosition();
-		shiftY = player.getYPosition();
+		player = new Player(level.getWidth(), level.getHeight());
 	}
 
 	public void leave(GameContainer container, StateBasedGame sbg) throws SlickException {
 	}
 
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.scale(3.0f, 3.0f);
-		float renderX = player.getXPosition();
-		float renderY = player.getYPosition();
+		float viewportX = player.getViewportX();
+		float viewportY = player.getViewportY();
+		float playerX = player.getPlayerX();
+		float playerY = player.getPlayerY();
+		level.draw(-viewportX, -viewportY, level.getWidth() * 2, level.getHeight() * 2);
+		player.draw(playerX - viewportX, playerY - viewportY);
+		g.drawString((int) player.getViewportX() + "|" + (int) player.getViewportY(), 20, 50);
 		
-		System.out.println(renderX + " " + renderY);
-		level.draw(renderX, renderY);
-		player.draw(shiftX, shiftY);
 	}
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {
-		if (shiftX <= 0) shiftX = 0;
-		if (shiftY <= 0) shiftY = 0;
-
 		Input input = container.getInput();
 
 		player.update(delta, input);
