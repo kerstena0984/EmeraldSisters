@@ -1,14 +1,13 @@
-Emerald Sisters
+# Emerald Sisters
 ==============
 
 A two-dimensional tile-based roleplaying game written in the Java programming language.
 
 Features
 ==============
-~> Unique narrative-based character progression system
-
-~> Expansive and engaging world
+* Unique narrative-based character progression system
+* Expansive and engaging world
 
 Authors
 ==============
-~> MattDavBen - Game creator
+* __MattDavBen__ - Game creator
