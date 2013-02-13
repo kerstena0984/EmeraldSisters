@@ -5,9 +5,9 @@ A two-dimensional tile-based roleplaying game written in the Java programming la
 
 Features
 ==============
-> Custom graphics, including pixels array manipulation and custom layering
-> Unique narrative-based character progression system
+~> Unique narrative-based character progression system
+~> Expansive and engaging world
 
 Authors
 ==============
-> MattDavBen - Game creator
+~> MattDavBen - Game creator
