@@ -1,4 +1,9 @@
-*.DS_Store
-notes
-*.project
-*.classpath
+# Don't include binaries
+.class
+
+# OS-specific files
+.DS_Store
+
+# IDE-specific files
+.project
+.classpath
