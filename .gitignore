@@ -10,3 +10,10 @@
 
 # Personal files
 notes
+.DS_Store
+
+*.class
+
+bin/com/mattdavben/emeraldsisters/PlayState.class
+
+bin/com/mattdavben/emeraldsisters/Player.class

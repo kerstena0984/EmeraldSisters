@@ -13,11 +13,11 @@ public class Player {
 
 	private float viewportX;
 	private float viewportY;
-	private float playerX = 0;
+	private float playerX = 30;
 	private float playerY = 44;
 	int[] animationLength = { 150, 150, 150, 150 };
 
-	public Player() throws SlickException {
+	public Player(int levelWidth, int levelHeight) throws SlickException {
 		init();
 	}
 
@@ -102,13 +102,14 @@ public class Player {
 			yMove = 0;
 		}
 
-		viewportX = playerX + 16 - (800 / 2);
-		viewportY = playerY + 24 - (600 / 2);
+		viewportX = playerX + 8 - (800 / 2);
+		viewportY = playerY + 2 - (600 / 2);
 
 		if (viewportX <= 0.0f) viewportX = 0.0f;
 		if (viewportY <= 0.0f) viewportY = 0.0f;
 		if (viewportX >= (1280 - Main.WIDTH)) viewportX = (1280 - Main.WIDTH);
 		if (viewportY >= (1280 - Main.HEIGHT)) viewportY = (1280 - Main.HEIGHT);
+
 	}
 
 	public float getPlayerX() {
