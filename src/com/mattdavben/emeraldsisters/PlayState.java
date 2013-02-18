@@ -36,8 +36,8 @@ public class PlayState extends BasicGameState {
 		float playerY = player.getPlayerY();
 		level.draw(-viewportX, -viewportY, level.getWidth() * 2, level.getHeight() * 2);
 		player.draw(playerX - viewportX, playerY - viewportY);
-		g.drawString((int) player.getViewportX() + "|" + (int) player.getViewportY(), 20, 50);
-		
+		g.drawString((int) ((player.getPlayerX() + 30) / 32) + "|" + (int) ((player.getPlayerY() + 44) / 32), 20, 50);
+
 	}
 
 	public void update(GameContainer container, StateBasedGame sbg, int delta) throws SlickException {

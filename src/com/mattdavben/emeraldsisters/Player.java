@@ -13,8 +13,8 @@ public class Player {
 
 	private float viewportX;
 	private float viewportY;
-	private float playerX = 15;
-	private float playerY = 15;
+	private float playerX = 30;
+	private float playerY = 44;
 	int[] animationLength = { 150, 150, 150, 150 };
 
 	public Player(int levelWidth, int levelHeight) throws SlickException {
@@ -51,24 +51,55 @@ public class Player {
 		player.draw(x, y, 32, 48);
 	}
 
+	float distanceSum = 0;
+	float stepCount = 0;
+	float steps = 0;
+	int xMove;
+	int yMove;
+
+	private void walk(int x, int y, int delta) {
+		stepCount++;
+		float multiplier = 1.0f;
+		float distance = 0.5f * multiplier;
+
+		if (yMove > 0) player = playerWalkingDown;
+		else if (yMove < 0) player = playerWalkingUp;
+		else if (xMove > 0) player = playerWalkingRight;
+		else if (xMove < 0) player = playerWalkingLeft;
+		
+		player.update(delta);
+
+		playerX += x * distance;
+		playerY += y * distance;
+
+		distanceSum += delta * multiplier;
+		steps -= 0.5;
+	}
+
 	public void update(int delta, Input input) throws SlickException {
-		float multiplier = 0.1f;
-
 		boolean movementKeyIsDown = input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT);
-		if (movementKeyIsDown) player.update(delta);
 
-		if (input.isKeyDown(Input.KEY_UP)) {
-			player = playerWalkingUp;
-			playerY -= delta * multiplier;
-		} else if (input.isKeyDown(Input.KEY_DOWN)) {
-			player = playerWalkingDown;
-			playerY += delta * multiplier;
-		} else if (input.isKeyDown(Input.KEY_LEFT)) {
-			player = playerWalkingLeft;
-			playerX -= delta * multiplier;
-		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
-			player = playerWalkingRight;
-			playerX += delta * multiplier;
+		if (steps == 0) {
+			if (movementKeyIsDown) {
+				steps = 32;
+			}
+			if (input.isKeyDown(Input.KEY_UP)) {
+				yMove = -1;
+			} else if (input.isKeyDown(Input.KEY_DOWN)) {
+				yMove = 1;
+			} else if (input.isKeyDown(Input.KEY_LEFT)) {
+				xMove = -1;
+			} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+				xMove = 1;
+			}
+		}
+
+		if (steps > 0) {
+			walk(xMove, yMove, delta);
+		}
+		if (steps == 0){
+			xMove = 0;
+			yMove = 0;
 		}
 
 		viewportX = playerX + 8 - (800 / 2);
@@ -78,6 +109,7 @@ public class Player {
 		if (viewportY <= 0.0f) viewportY = 0.0f;
 		if (viewportX >= (1280 - Main.WIDTH)) viewportX = (1280 - Main.WIDTH);
 		if (viewportY >= (1280 - Main.HEIGHT)) viewportY = (1280 - Main.HEIGHT);
+
 	}
 
 	public float getPlayerX() {

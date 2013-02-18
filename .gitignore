@@ -1,5 +1,5 @@
 # Don't include binaries
-.class
+*.class
 
 # OS-specific files
 .DS_Store
@@ -7,3 +7,6 @@
 # IDE-specific files
 .project
 .classpath
+
+# Personal files
+notes
