@@ -1,5 +1,5 @@
 # Don't include binaries
-*.class
+bin/com/mattdavben/emeraldsisters/*.class
 
 # OS-specific files
 .DS_Store
@@ -11,9 +11,3 @@
 # Personal files
 notes
 .DS_Store
-
-*.class
-
-bin/com/mattdavben/emeraldsisters/PlayState.class
-
-bin/com/mattdavben/emeraldsisters/Player.class
