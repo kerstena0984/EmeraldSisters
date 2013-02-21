@@ -5,6 +5,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.geom.Rectangle;
 
 public class Player {
 
@@ -13,15 +14,20 @@ public class Player {
 
 	private float viewportX;
 	private float viewportY;
-	private float playerX = 30;
+	private float playerX = 0;
 	private float playerY = 44;
+	private Rectangle collisionBox;
+	float steps = 0;
+	int xMove;
+	int yMove;
 	int[] animationLength = { 150, 150, 150, 150 };
 
-	public Player(int levelWidth, int levelHeight) throws SlickException {
+	public Player() throws SlickException {
 		init();
 	}
 
 	public void init() throws SlickException {
+		collisionBox = new Rectangle(playerX, playerY, 32, 48);
 		int playerWidth = 16;
 		int playerHeight = 24;
 		characterSheet = new SpriteSheet(new Image("res/Kate.png"), playerWidth, playerHeight);
@@ -51,14 +57,7 @@ public class Player {
 		player.draw(x, y, 32, 48);
 	}
 
-	float distanceSum = 0;
-	float stepCount = 0;
-	float steps = 0;
-	int xMove;
-	int yMove;
-
 	private void walk(int x, int y, int delta) {
-		stepCount++;
 		float multiplier = 1.0f;
 		float distance = 0.5f * multiplier;
 
@@ -66,13 +65,12 @@ public class Player {
 		else if (yMove < 0) player = playerWalkingUp;
 		else if (xMove > 0) player = playerWalkingRight;
 		else if (xMove < 0) player = playerWalkingLeft;
-		
+
 		player.update(delta);
 
 		playerX += x * distance;
 		playerY += y * distance;
 
-		distanceSum += delta * multiplier;
 		steps -= 0.5;
 	}
 
@@ -80,9 +78,7 @@ public class Player {
 		boolean movementKeyIsDown = input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT);
 
 		if (steps == 0) {
-			if (movementKeyIsDown) {
-				steps = 32;
-			}
+			if (movementKeyIsDown) steps = 32;
 			if (input.isKeyDown(Input.KEY_UP)) {
 				yMove = -1;
 			} else if (input.isKeyDown(Input.KEY_DOWN)) {
@@ -97,19 +93,22 @@ public class Player {
 		if (steps > 0) {
 			walk(xMove, yMove, delta);
 		}
-		if (steps == 0){
+		if (steps == 0) {
 			xMove = 0;
 			yMove = 0;
 		}
 
-		viewportX = playerX + 8 - (800 / 2);
-		viewportY = playerY + 2 - (600 / 2);
+		collisionBox.setBounds(playerX, playerY, 32, 48);
+		
+		System.out.println(collisionBox.getX() + " " + collisionBox.getY());
+
+		viewportX = playerX + 16 - (800 / 2);
+		viewportY = playerY + 24 - (600 / 2);
 
 		if (viewportX <= 0.0f) viewportX = 0.0f;
 		if (viewportY <= 0.0f) viewportY = 0.0f;
 		if (viewportX >= (1280 - Main.WIDTH)) viewportX = (1280 - Main.WIDTH);
 		if (viewportY >= (1280 - Main.HEIGHT)) viewportY = (1280 - Main.HEIGHT);
-
 	}
 
 	public float getPlayerX() {

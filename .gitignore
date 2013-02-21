@@ -5,9 +5,7 @@ bin/com/mattdavben/emeraldsisters/*.class
 .DS_Store
 
 # IDE-specific files
-.project
 .classpath
 
 # Personal files
 notes
-.DS_Store
