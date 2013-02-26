@@ -39,8 +39,7 @@ public class PlayState extends BasicGameState {
 		float playerY = player.getPlayerY();
 		map.render((int) -viewportX, (int) -viewportY);
 		player.draw(playerX - viewportX, playerY - viewportY);
-		g.drawString((int) ((player.getPlayerX() + 0) / 32) + "|" + (int) ((player.getPlayerY() + 44) / 32), 20, 50);
-
+		g.drawString((int) ((player.getPlayerX() + 16) / 32) + "|" + (int) ((player.getPlayerY() + 24) / 32), 20, 50);
 	}
 
 	@Override

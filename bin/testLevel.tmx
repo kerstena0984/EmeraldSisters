@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="SpriteSheet" tilewidth="32" tileheight="32">
+  <image source="SpriteSheet.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="65" name="newSheet" tilewidth="32" tileheight="32">
+  <image source="newSheet.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Grass" width="40" height="40">
+  <properties>
+   <property name="blocked" value="false"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMBKHL9v1DrcdQcNVUVVVVVVUfPcBYnJA=
+  </data>
+ </layer>
+ <layer name="Rocks" width="40" height="40">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztl9ENACEIQ93N/Xe6BYwnGC21fd8a2kKitGZW6WgBG8y0r/pi9o8gkhdrtqy6DY4KM5PREL0zOn/Te4WcjTZqMxj5Z2WzUcs0w2sZnfCDzghd3/CgsKMyvwcVNJg6vLLneK45+OuTUh+VvO7yAYRrCKQ=
+  </data>
+ </layer>
+</map>
