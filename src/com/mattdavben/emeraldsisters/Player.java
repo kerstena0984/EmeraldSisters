@@ -1,85 +1,46 @@
 package com.mattdavben.emeraldsisters;
 
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 
 public class Player {
 
-	private Animation player, playerWalkingUp, playerWalkingDown, playerWalkingLeft, playerWalkingRight;
-	private SpriteSheet characterSheet;
-
-	private float viewportX;
-	private float viewportY;
-	private float playerX = 0;
-	private float playerY = 44;
-	float steps = 0;
-	int xMove;
-	int yMove;
-	float destinationX;
-	float destinationY;
-	int[] animationLength = { 150, 150, 150, 150 };
+	private float playerX;
+	private float playerY;
+	private PlayerSprite playerSprite;
+	private float steps;
+	private int xMove;
+	private int yMove;
+	private float destinationX;
+	private float destinationY;
+	private Coordinate currentCoordinate;
 
 	public Player() throws SlickException {
-		init();
-	}
-
-	public void init() throws SlickException {
-		int playerWidth = 16;
-		int playerHeight = 24;
-		characterSheet = new SpriteSheet(new Image("res/Kate.png"), playerWidth, playerHeight);
-		Image down0 = characterSheet.getSubImage(0, 0);
-		Image down1 = characterSheet.getSubImage(1, 0);
-		Image down2 = characterSheet.getSubImage(2, 0);
-		Image left0 = characterSheet.getSubImage(3, 0);
-		Image left1 = characterSheet.getSubImage(4, 0);
-		Image left2 = characterSheet.getSubImage(5, 0);
-		Image up0 = characterSheet.getSubImage(6, 0);
-		Image up1 = characterSheet.getSubImage(7, 0);
-		characterSheet.setFilter(Image.FILTER_NEAREST);
-
-		Image[] walkingDown = { down0, down1, down0, down2 };
-		Image[] walkingUp = { up0, up1, up0.getFlippedCopy(true, false), up1.getFlippedCopy(true, false) };
-		Image[] walkingLeft = { left0, left1, left0, left2 };
-		Image[] walkingRight = { left0.getFlippedCopy(true, false), left1.getFlippedCopy(true, false), left0.getFlippedCopy(true, false), left2.getFlippedCopy(true, false), };
-
-		playerWalkingDown = new Animation(walkingDown, animationLength, false);
-		playerWalkingUp = new Animation(walkingUp, animationLength, false);
-		playerWalkingLeft = new Animation(walkingLeft, animationLength, false);
-		playerWalkingRight = new Animation(walkingRight, animationLength, false);
-		player = playerWalkingDown;
+		playerSprite = new PlayerSprite("res/Kate.png");
+		steps = 0;
+		playerX = 0;
+		playerY = 44;
+		currentCoordinate = new Coordinate((int) playerX / 32, (int) playerY / 32);
 	}
 
 	public void draw(float x, float y) throws SlickException {
-		player.draw(x, y, 32, 48);
+		playerSprite.draw(x, y, 32, 48);
 	}
 
 	private void walk(int x, int y, int delta) {
 		float speed = 3.0f;
 		float pixelsPerTile = 32;
 		float distance = speed * pixelsPerTile * delta / 1000f;
-		boolean snapToXRight = destinationX > playerX && destinationX < playerX + distance;
-		boolean snapToXLeft = destinationX < playerX && destinationX > playerX - distance;
-		boolean snapToYUp = destinationY < playerY && destinationY > playerY - distance;
-		boolean snapToYDown = destinationY > playerY && destinationY < playerY + distance;
 
-		if (yMove > 0) player = playerWalkingDown;
-		else if (yMove < 0) player = playerWalkingUp;
-		else if (xMove > 0) player = playerWalkingRight;
-		else if (xMove < 0) player = playerWalkingLeft;
+		playerSprite.update(xMove, yMove, delta);
 
-		player.update(delta);
-		
-		if (snapToXRight || snapToXLeft) {
+		if (snapToX(distance)) {
 			playerX = destinationX;
-		}
-		else {
+		} else {
 			playerX += x * distance;
 		}
 
-		if (snapToYDown || snapToYUp) {
+		if (snapToY(distance)) {
 			playerY = destinationY;
 		} else {
 			playerY += y * distance;
@@ -92,10 +53,8 @@ public class Player {
 	}
 
 	public void update(int delta, Input input) throws SlickException {
-		boolean movementKeyIsDown = input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT);
-
 		if (steps == 0.0) {
-			if (movementKeyIsDown) {
+			if (movementKeyIsDown(input)) {
 				steps = 32;
 			}
 			if (input.isKeyDown(Input.KEY_UP)) {
@@ -111,6 +70,10 @@ public class Player {
 				xMove = 1;
 				destinationX = playerX + 32;
 			}
+			if (input.isKeyDown(Input.KEY_LSHIFT)) {
+				xMove *= 3;
+				yMove *= 3;
+			}
 		}
 
 		if (steps > 0) {
@@ -121,13 +84,19 @@ public class Player {
 			yMove = 0;
 		}
 
-		viewportX = playerX + 16 - (800 / 2);
-		viewportY = playerY + 24 - (600 / 2);
+		currentCoordinate = new Coordinate((int) playerX / 32, (int) playerY / 32);
+	}
 
-		if (viewportX <= 0.0f) viewportX = 0.0f;
-		if (viewportY <= 0.0f) viewportY = 0.0f;
-		if (viewportX >= (1280 - Main.WIDTH)) viewportX = (1280 - Main.WIDTH);
-		if (viewportY >= (1280 - Main.HEIGHT)) viewportY = (1280 - Main.HEIGHT);
+	private boolean snapToX(float distance) {
+		return (destinationX > playerX && destinationX < playerX + distance) || (destinationX < playerX && destinationX > playerX - distance);
+	}
+
+	private boolean snapToY(float distance) {
+		return (destinationY < playerY && destinationY > playerY - distance) || (destinationY > playerY && destinationY < playerY + distance);
+	}
+
+	private boolean movementKeyIsDown(Input input) {
+		return input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT);
 	}
 
 	public float getPlayerX() {
@@ -136,13 +105,5 @@ public class Player {
 
 	public float getPlayerY() {
 		return playerY;
-	}
-
-	public float getViewportX() {
-		return viewportX;
-	}
-
-	public float getViewportY() {
-		return viewportY;
 	}
 }
