@@ -1,6 +1,7 @@
 # Don't include binaries
 bin/com/mattdavben/emeraldsisters/*.class
-bin/*.*
+bin/com/mattdavben/emeraldsisters/entity/*.class
+bin/*
 
 # OS-specific files
 .DS_Store
