@@ -12,9 +12,9 @@ public class Entity {
 	protected String id;
 	protected Vector2f position;
 
-	private RenderComponent renderComponent = null;
+	protected RenderComponent renderComponent = null;
 
-	private ArrayList<Component> components = null;
+	protected ArrayList<Component> components = null;
 
 	public Entity(String id) {
 		this.id = id;
@@ -23,8 +23,8 @@ public class Entity {
 
 		position = new Vector2f(0, 0);
 	}
-
-	public void AddComponent(Component component) {
+	
+	public void addComponent(Component component) {
 		if (RenderComponent.class.isInstance(component)) renderComponent = (RenderComponent) component;
 
 		component.setOwnerEntity(this);
