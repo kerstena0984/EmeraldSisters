@@ -12,7 +12,7 @@ Authors
 ==============
 * __MattDavBen__ - Game creator
 
-Slick2D Setup Instructions
+Slick2D Setup Instructions (for Eclipse)
 ==============
 * Right-click your project's name and select "properties"
 * Select 'Java Build Path' and then the 'Libraries' tab.
@@ -27,7 +27,7 @@ Slick2D Setup Instructions
   * natives/macosx which contains the *.dylib and *.jnilib
   * natives/linux which contains the *.so
 
-Guava Setup Instructions
+Guava Setup Instructions (for Eclipse)
 ==============
 * Right-click your project's name and select "properties"
 * Select 'Java Build Path' and then the 'Libraries' tab.
