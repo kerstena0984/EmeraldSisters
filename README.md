@@ -26,9 +26,9 @@ Slick2D Setup Instructions
   * natives\windows folder which contains the *.dll files,
   * natives/macosx which contains the *.dylib and *.jnilib
   * natives/linux which contains the *.so
-  * 
 
 Guava Setup Instructions
+==============
 * Right-click your project's name and select "properties"
 * Select 'Java Build Path' and then the 'Libraries' tab.
 * Click "Add External Jars.." and select the following files from the "lib" folder:
