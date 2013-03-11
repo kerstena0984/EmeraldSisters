@@ -71,7 +71,7 @@ public class QuadTree {
 
 		return index;
 	}
-
+	
 	public void insert(Shape pRect) {
 		if (nodes[0] != null) {
 			int index = getIndex(pRect);
