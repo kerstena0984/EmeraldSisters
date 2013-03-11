@@ -10,9 +10,8 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-public class Player extends Entity {
+public class Player extends WorldEntity {
 
-	private Shape collisionShape;
 	private SpriteSheet characterSheet;
 	private Animation current, playerWalkingUp, playerWalkingDown, playerWalkingLeft, playerWalkingRight;
 	private int[] animationLength = { 150, 150, 150, 150 };
@@ -24,7 +23,7 @@ public class Player extends Entity {
 		this.characterSheet = new SpriteSheet("Katherine.png", SPRITE_WIDTH, SPRITE_LENGTH);
 		this.input = input;
 
-		collisionShape = new Rectangle(position.x, position.y, SPRITE_WIDTH, SPRITE_LENGTH);
+		collisionShape = new Rectangle(position.x, position.y, SPRITE_WIDTH, SPRITE_LENGTH / 2);
 		characterSheet.setFilter(Image.FILTER_NEAREST);
 
 		setAnimations();
@@ -43,7 +42,7 @@ public class Player extends Entity {
 	public void update(GameContainer gc, int delta) {
 		animateBasedOnUserInput(input);
 		if (movementButtonIsPressed(input)) current.update(delta);
-		
+
 		float speedInTilesPerSecond = 3.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
@@ -58,7 +57,7 @@ public class Player extends Entity {
 		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
 			position.x += distance;
 		}
-		
+
 		collisionShape.setX(position.x);
 		collisionShape.setY(position.y + 24);
 	}

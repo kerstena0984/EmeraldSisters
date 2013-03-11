@@ -1,5 +1,6 @@
 package com.mattdavben.emeraldsisters.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.GameContainer;
@@ -16,7 +17,8 @@ import com.mattdavben.emeraldsisters.entity.collision.QuadTree;
 public class World {
 
 	private TiledMap map;
-	private List<Shape> collisionObjects;
+	private ArrayList<Shape> collisionObjects;
+	private ArrayList<WorldEntity> worldEntities;
 	private QuadTree quadtree;
 	private Player player;
 	private Viewport viewport;
@@ -24,6 +26,7 @@ public class World {
 	public World(Input input) throws SlickException {
 		map = new TiledMap("res/testLevel.tmx");
 		collisionObjects = Lists.newArrayList();
+		worldEntities = Lists.newArrayList();
 		quadtree = new QuadTree(0, new Rectangle(0, 0, map.getWidth(), map.getHeight()));
 		player = new Player(input);
 		viewport = new Viewport();
@@ -32,7 +35,11 @@ public class World {
 			for (int y = 0; y < map.getHeight(); y++) {
 				int tileID = map.getTileId(x, y, 1);
 				String value = map.getTileProperty(tileID, "blocked", "false");
-				if (!value.equals("false")) collisionObjects.add(new Rectangle(x * 32, y * 32, 32, 32));
+				if (!value.equals("false")) {
+					WorldEntity entity = new WorldEntity().withCollisionShape(x * 32, y * 32, 32, 32);
+					worldEntities.add(entity);
+					collisionObjects.add(entity.getCollisionShape());
+				}
 			}
 		}
 
@@ -42,6 +49,9 @@ public class World {
 	public void render(GameContainer gc, Graphics gr) {
 		map.render((int) -viewport.position.x, (int) -viewport.position.y);
 		player.render(gc, viewport, gr);
+		player.renderCollisionBox(viewport, gr);
+		for (WorldEntity entity : worldEntities)
+			entity.renderCollisionBox(viewport, gr);
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
