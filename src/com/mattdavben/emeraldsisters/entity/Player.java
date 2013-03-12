@@ -9,7 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Vector2f;
 
 public class Player extends WorldEntity {
 
@@ -19,8 +18,7 @@ public class Player extends WorldEntity {
 	private final int SPRITE_WIDTH = 32;
 	private final int SPRITE_LENGTH = 48;
 	private Input input;
-	private Vector2f previousPosition;
-	private Direction currentDirection;
+	public Direction currentDirection;
 	public boolean blocked;
 
 	public Player(Input input) throws SlickException {
@@ -57,8 +55,6 @@ public class Player extends WorldEntity {
 			current.update(delta);
 
 			if (!blocked) {
-				previousPosition = currentPosition.copy();
-
 				if (input.isKeyDown(Input.KEY_UP)) {
 					currentPosition.y -= distance;
 				} else if (input.isKeyDown(Input.KEY_DOWN)) {
@@ -70,10 +66,6 @@ public class Player extends WorldEntity {
 					currentPosition.x += distance;
 				}
 			}
-		}
-
-		if (blocked) {
-			currentPosition = previousPosition;
 		}
 
 		collisionShape.setX(currentPosition.x + 1);

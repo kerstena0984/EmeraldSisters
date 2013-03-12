@@ -49,9 +49,9 @@ public class World {
 	public void render(GameContainer gc, Graphics gr) {
 		map.render((int) -viewport.position.x, (int) -viewport.position.y);
 		player.render(gc, viewport, gr);
-		player.renderCollisionBox(viewport, gr);
-		for (WorldEntity entity : worldEntities)
-			entity.renderCollisionBox(viewport, gr);
+		// player.renderCollisionBox(viewport, gr);
+		// for (WorldEntity entity : worldEntities)
+		// entity.renderCollisionBox(viewport, gr);
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
@@ -62,13 +62,35 @@ public class World {
 		List<Shape> collidableShapesNearPlayer = Lists.newArrayList();
 
 		player.blocked = false;
-		quadtree.retrieve(collidableShapesNearPlayer, player.getCollisionShape());
+		Shape movingShape = player.getCollisionShape();
+		float movingX = movingShape.getX();
+		float movingY = movingShape.getY();
+
+		float speedInTilesPerSecond = 3.0f;
+		float pixelsPerTile = 32.0f;
+		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
+
+		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
+			movingY -= distance;
+		} else if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
+			movingY += distance;
+		}
+		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
+			movingX -= distance;
+		} else if (gc.getInput().isKeyDown(Input.KEY_RIGHT)) {
+			movingX += distance;
+		}
+
+		movingShape.setX(movingX);
+		movingShape.setY(movingY);
+
+		quadtree.retrieve(collidableShapesNearPlayer, movingShape);
 		for (int k = 0; k < collidableShapesNearPlayer.size(); k++) {
-			if (player.getCollisionShape().intersects(collidableShapesNearPlayer.get(k)) && !player.getCollisionShape().equals(collidableShapesNearPlayer.get(k))) {
+			if (player.getCollisionShape().intersects(collidableShapesNearPlayer.get(k)) && !movingShape.equals(collidableShapesNearPlayer.get(k))) {
 				player.blocked = true;
 			}
 		}
-		
+
 		player.update(gc, delta);
 		viewport.update(player);
 
