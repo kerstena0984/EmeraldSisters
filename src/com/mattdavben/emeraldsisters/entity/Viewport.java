@@ -13,8 +13,8 @@ public class Viewport {
 	}
 	
 	public void update(Player player) {
-		position.x = player.position.x + 16 - (Main.GAME_SCREEN_WIDTH / 2.0f);
-		position.y = player.position.y + 24 - (Main.GAME_SCREEN_HEIGHT / 2.0f);
+		position.x = player.currentPosition.x + 16 - (Main.GAME_SCREEN_WIDTH / 2.0f);
+		position.y = player.currentPosition.y + 24 - (Main.GAME_SCREEN_HEIGHT / 2.0f);
 
 		if (position.x <= 0.0f) position.x = 0.0f;
 		if (position.y <= 0.0f) position.y = 0.0f;

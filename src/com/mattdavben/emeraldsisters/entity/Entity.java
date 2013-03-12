@@ -6,18 +6,18 @@ import org.newdawn.slick.geom.Vector2f;
 
 public abstract class Entity {
 
-	protected Vector2f position;
+	protected Vector2f currentPosition;
 
 	public Entity() {
-		position = new Vector2f(0, 0);
+		currentPosition = new Vector2f(0, 0);
 	}
 
 	public Vector2f getPosition() {
-		return position;
+		return currentPosition;
 	}
 
 	public void setPosition(Vector2f position) {
-		this.position = position;
+		this.currentPosition = position;
 	}
 
 	public abstract void update(GameContainer gc, int delta);

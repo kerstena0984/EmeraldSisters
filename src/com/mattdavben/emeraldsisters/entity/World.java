@@ -36,7 +36,7 @@ public class World {
 				int tileID = map.getTileId(x, y, 1);
 				String value = map.getTileProperty(tileID, "blocked", "false");
 				if (!value.equals("false")) {
-					WorldEntity entity = new WorldEntity().withCollisionShape(x * 32, y * 32, 32, 32);
+					WorldEntity entity = new WorldEntity().withCollisionShape(x * 32 + 2, y * 32 + 2, 28, 28);
 					worldEntities.add(entity);
 					collisionObjects.add(entity.getCollisionShape());
 				}
@@ -59,20 +59,18 @@ public class World {
 		for (Shape shape : collisionObjects)
 			quadtree.insert(shape);
 
+		List<Shape> collidableShapesNearPlayer = Lists.newArrayList();
+
+		player.blocked = false;
+		quadtree.retrieve(collidableShapesNearPlayer, player.getCollisionShape());
+		for (int k = 0; k < collidableShapesNearPlayer.size(); k++) {
+			if (player.getCollisionShape().intersects(collidableShapesNearPlayer.get(k)) && !player.getCollisionShape().equals(collidableShapesNearPlayer.get(k))) {
+				player.blocked = true;
+			}
+		}
+		
 		player.update(gc, delta);
 		viewport.update(player);
 
-		List<Shape> collidableShapes = Lists.newArrayList();
-		for (int i = 0; i < collisionObjects.size(); i++) {
-			collidableShapes.clear();
-			quadtree.retrieve(collidableShapes, collisionObjects.get(i));
-
-			for (int k = 0; k < collidableShapes.size(); k++) {
-				if (player.getCollisionShape().intersects(collidableShapes.get(k)) && !player.getCollisionShape().equals(collidableShapes.get(k))) {
-					System.out.println("PLAYER COLLISION!");
-				}
-			}
-		}
 	}
-
 }

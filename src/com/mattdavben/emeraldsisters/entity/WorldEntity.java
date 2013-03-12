@@ -9,20 +9,25 @@ import org.newdawn.slick.geom.Vector2f;
 
 public class WorldEntity extends Entity {
 
+	private int width;
+	private int height;
+	private float x;
+	private float y;
 	protected Shape collisionShape;
-	
+
 	public WorldEntity() {
-		collisionShape = null;
 	}
 
 	public WorldEntity withCollisionShape(int startingX, int startingY, int width, int height) {
-		this.position = new Vector2f(startingX, startingY);
-		this.collisionShape = new Rectangle(position.x, position.y, width, height);
+		this.currentPosition = new Vector2f(startingX, startingY);
+		this.collisionShape = new Rectangle(startingX, startingY, width, height);
+		this.width = width;
+		this.height = height;
 		return this;
 	}
 
 	public void render(Graphics gr, Viewport viewport) {
-		gr.draw(collisionShape);
+		gr.draw(new Rectangle(x - viewport.position.x, y - viewport.position.y, width, height));
 	}
 
 	@Override
@@ -47,7 +52,7 @@ public class WorldEntity extends Entity {
 
 	@Override
 	public void render(GameContainer gc, Viewport viewport, Graphics gr) {
-		
+
 	}
 
 }

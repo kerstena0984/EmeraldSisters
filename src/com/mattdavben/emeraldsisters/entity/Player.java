@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 public class Player extends WorldEntity {
 
@@ -18,17 +19,21 @@ public class Player extends WorldEntity {
 	private final int SPRITE_WIDTH = 32;
 	private final int SPRITE_LENGTH = 48;
 	private Input input;
+	private Vector2f previousPosition;
+	private Direction currentDirection;
+	public boolean blocked;
 
 	public Player(Input input) throws SlickException {
 		this.characterSheet = new SpriteSheet("Katherine.png", SPRITE_WIDTH, SPRITE_LENGTH);
 		this.input = input;
 
-		collisionShape = new Rectangle(position.x, position.y, SPRITE_WIDTH, SPRITE_LENGTH / 2);
+		collisionShape = new Rectangle(currentPosition.x + 1, currentPosition.y + 1, SPRITE_WIDTH - 2, SPRITE_LENGTH / 2 - 2);
 		characterSheet.setFilter(Image.FILTER_NEAREST);
 
 		setAnimations();
 
-		current = playerWalkingDown;
+		currentDirection = Direction.UP;
+		blocked = false;
 	}
 
 	public Shape getCollisionShape() {
@@ -36,45 +41,80 @@ public class Player extends WorldEntity {
 	}
 
 	public void render(GameContainer gc, Viewport viewport, Graphics gr) {
-		current.draw(position.x - viewport.position.x, position.y - viewport.position.y);
+		animateBasedOnCurrentDirection();
+
+		current.draw(currentPosition.x - viewport.position.x, currentPosition.y - viewport.position.y);
 	}
 
 	public void update(GameContainer gc, int delta) {
-		animateBasedOnUserInput(input);
-		if (movementButtonIsPressed(input)) current.update(delta);
+		updateDirectionBasedOnUserInput();
 
 		float speedInTilesPerSecond = 3.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
 
-		if (input.isKeyDown(Input.KEY_UP)) {
-			position.y -= distance;
-		} else if (input.isKeyDown(Input.KEY_DOWN)) {
-			position.y += distance;
-		}
-		if (input.isKeyDown(Input.KEY_LEFT)) {
-			position.x -= distance;
-		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
-			position.x += distance;
+		if (movementButtonIsPressed()) {
+			current.update(delta);
+
+			if (!blocked) {
+				previousPosition = currentPosition.copy();
+
+				if (input.isKeyDown(Input.KEY_UP)) {
+					currentPosition.y -= distance;
+				} else if (input.isKeyDown(Input.KEY_DOWN)) {
+					currentPosition.y += distance;
+				}
+				if (input.isKeyDown(Input.KEY_LEFT)) {
+					currentPosition.x -= distance;
+				} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+					currentPosition.x += distance;
+				}
+			}
 		}
 
-		collisionShape.setX(position.x);
-		collisionShape.setY(position.y + 24);
+		if (blocked) {
+			currentPosition = previousPosition;
+		}
+
+		collisionShape.setX(currentPosition.x + 1);
+		collisionShape.setY(currentPosition.y + 25);
 	}
 
-	private boolean movementButtonIsPressed(Input input) {
+	private enum Direction {
+		UP, DOWN, LEFT, RIGHT;
+	}
+
+	private void updateDirectionBasedOnUserInput() {
+		if (input.isKeyDown(Input.KEY_UP)) {
+			currentDirection = Direction.UP;
+		} else if (input.isKeyDown(Input.KEY_DOWN)) {
+			currentDirection = Direction.DOWN;
+		}
+		if (input.isKeyDown(Input.KEY_LEFT)) {
+			currentDirection = Direction.LEFT;
+		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+			currentDirection = Direction.RIGHT;
+		}
+	}
+
+	private boolean movementButtonIsPressed() {
 		return input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT);
 	}
 
-	private void animateBasedOnUserInput(Input input) {
-		if (input.isKeyDown(Input.KEY_UP)) {
+	private void animateBasedOnCurrentDirection() {
+		switch (currentDirection) {
+		case UP:
 			current = playerWalkingUp;
-		} else if (input.isKeyDown(Input.KEY_DOWN)) {
+			break;
+		case DOWN:
 			current = playerWalkingDown;
-		} else if (input.isKeyDown(Input.KEY_LEFT)) {
+			break;
+		case LEFT:
 			current = playerWalkingLeft;
-		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
+			break;
+		case RIGHT:
 			current = playerWalkingRight;
+			break;
 		}
 	}
 
