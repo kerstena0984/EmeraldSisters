@@ -38,12 +38,11 @@ public class World {
 				if (!value.equals("false")) {
 					WorldEntity entity = new WorldEntity().withCollisionShape(x * 32 + 2, y * 32 + 2, 28, 28);
 					worldEntities.add(entity);
-					collisionObjects.add(entity.getCollisionShape());
+					collisionObjects.add(entity.getCollisionShapeCopy());
 				}
 			}
 		}
 
-		collisionObjects.add(player.getCollisionShape());
 	}
 
 	public void render(GameContainer gc, Graphics gr) {
@@ -61,33 +60,40 @@ public class World {
 
 		List<Shape> collidableShapesNearPlayer = Lists.newArrayList();
 
-		player.blocked = false;
-		Shape movingShape = player.getCollisionShape();
-		float movingX = movingShape.getX();
-		float movingY = movingShape.getY();
+		player.blockedLeft = false;
+		player.blockedRight = false;
+		player.blockedUp = false;
+		player.blockedDown = false;
 
 		float speedInTilesPerSecond = 3.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
 
-		if (gc.getInput().isKeyDown(Input.KEY_UP)) {
-			movingY -= distance;
-		} else if (gc.getInput().isKeyDown(Input.KEY_DOWN)) {
-			movingY += distance;
-		}
-		if (gc.getInput().isKeyDown(Input.KEY_LEFT)) {
-			movingX -= distance;
-		} else if (gc.getInput().isKeyDown(Input.KEY_RIGHT)) {
-			movingX += distance;
-		}
+		Shape collisionShapeUp = player.getCollisionShapeCopy();
+		collisionShapeUp.setY(collisionShapeUp.getY() - distance);
 
-		movingShape.setX(movingX);
-		movingShape.setY(movingY);
+		Shape collisionShapeDown = player.getCollisionShapeCopy();
+		collisionShapeDown.setY(collisionShapeDown.getY() + distance);
 
-		quadtree.retrieve(collidableShapesNearPlayer, movingShape);
+		Shape collisionShapeLeft = player.getCollisionShapeCopy();
+		collisionShapeLeft.setX(collisionShapeLeft.getX() - distance);
+
+		Shape collisionShapeRight = player.getCollisionShapeCopy();
+		collisionShapeRight.setX(collisionShapeRight.getX() + distance);
+
+		quadtree.retrieve(collidableShapesNearPlayer, player.getCollisionShape());
 		for (int k = 0; k < collidableShapesNearPlayer.size(); k++) {
-			if (player.getCollisionShape().intersects(collidableShapesNearPlayer.get(k)) && !movingShape.equals(collidableShapesNearPlayer.get(k))) {
-				player.blocked = true;
+			if (collisionShapeUp.intersects(collidableShapesNearPlayer.get(k))) {
+				player.blockedUp = true;
+			}
+			if (collisionShapeDown.intersects(collidableShapesNearPlayer.get(k))) {
+				player.blockedDown = true;
+			}
+			if (collisionShapeLeft.intersects(collidableShapesNearPlayer.get(k))) {
+				player.blockedLeft = true;
+			}
+			if (collisionShapeRight.intersects(collidableShapesNearPlayer.get(k))) {
+				player.blockedRight = true;
 			}
 		}
 

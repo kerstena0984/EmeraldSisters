@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 
 public class Player extends WorldEntity {
@@ -19,23 +19,36 @@ public class Player extends WorldEntity {
 	private final int SPRITE_LENGTH = 48;
 	private Input input;
 	public Direction currentDirection;
-	public boolean blocked;
+	public boolean blockedLeft;
+	public boolean blockedRight;
+	public boolean blockedUp;
+	public boolean blockedDown;
 
 	public Player(Input input) throws SlickException {
 		this.characterSheet = new SpriteSheet("Katherine.png", SPRITE_WIDTH, SPRITE_LENGTH);
 		this.input = input;
 
-		collisionShape = new Rectangle(currentPosition.x + 1, currentPosition.y + 1, SPRITE_WIDTH - 2, SPRITE_LENGTH / 2 - 2);
+		float[] points = { currentPosition.x + 1, currentPosition.y + 1, currentPosition.x + 1 + SPRITE_WIDTH - 2, currentPosition.y + 1, currentPosition.x + 1 + SPRITE_WIDTH - 2,
+				currentPosition.y + 1 + SPRITE_LENGTH / 2 - 2, currentPosition.x + 1, currentPosition.y + 1 + SPRITE_LENGTH / 2 - 2 };
+
+		collisionShape = new Polygon(points);
 		characterSheet.setFilter(Image.FILTER_NEAREST);
 
 		setAnimations();
 
-		currentDirection = Direction.UP;
-		blocked = false;
+		currentDirection = Direction.NORTH;
+		blockedLeft = false;
+		blockedRight = false;
+		blockedUp = false;
+		blockedDown = false;
 	}
 
 	public Shape getCollisionShape() {
 		return collisionShape;
+	}
+
+	public Shape getCollisionShapeCopy() {
+		return collisionShape.copy();
 	}
 
 	public void render(GameContainer gc, Viewport viewport, Graphics gr) {
@@ -54,17 +67,15 @@ public class Player extends WorldEntity {
 		if (movementButtonIsPressed()) {
 			current.update(delta);
 
-			if (!blocked) {
-				if (input.isKeyDown(Input.KEY_UP)) {
-					currentPosition.y -= distance;
-				} else if (input.isKeyDown(Input.KEY_DOWN)) {
-					currentPosition.y += distance;
-				}
-				if (input.isKeyDown(Input.KEY_LEFT)) {
-					currentPosition.x -= distance;
-				} else if (input.isKeyDown(Input.KEY_RIGHT)) {
-					currentPosition.x += distance;
-				}
+			if (input.isKeyDown(Input.KEY_UP) && !blockedUp) {
+				currentPosition.y -= distance;
+			} else if (input.isKeyDown(Input.KEY_DOWN) && !blockedDown) {
+				currentPosition.y += distance;
+			}
+			if (input.isKeyDown(Input.KEY_LEFT) && !blockedLeft) {
+				currentPosition.x -= distance;
+			} else if (input.isKeyDown(Input.KEY_RIGHT) && !blockedRight) {
+				currentPosition.x += distance;
 			}
 		}
 
@@ -73,19 +84,32 @@ public class Player extends WorldEntity {
 	}
 
 	private enum Direction {
-		UP, DOWN, LEFT, RIGHT;
+		NORTH, SOUTH, WEST, EAST, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST;
 	}
 
 	private void updateDirectionBasedOnUserInput() {
-		if (input.isKeyDown(Input.KEY_UP)) {
-			currentDirection = Direction.UP;
-		} else if (input.isKeyDown(Input.KEY_DOWN)) {
-			currentDirection = Direction.DOWN;
+		if (input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)) {
+			currentDirection = Direction.NORTH;
+		} else if (input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_RIGHT)) {
+			currentDirection = Direction.SOUTH;
 		}
-		if (input.isKeyDown(Input.KEY_LEFT)) {
-			currentDirection = Direction.LEFT;
-		} else if (input.isKeyDown(Input.KEY_RIGHT)) {
-			currentDirection = Direction.RIGHT;
+
+		if (input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_DOWN)) {
+			currentDirection = Direction.WEST;
+		} else if (input.isKeyDown(Input.KEY_RIGHT) && !input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_DOWN)) {
+			currentDirection = Direction.EAST;
+		}
+
+		if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_RIGHT)) {
+			currentDirection = Direction.NORTHEAST;
+		} else if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_LEFT)) {
+			currentDirection = Direction.NORTHWEST;
+		}
+
+		if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_RIGHT)) {
+			currentDirection = Direction.SOUTHEAST;
+		} else if (input.isKeyDown(Input.KEY_DOWN) && input.isKeyDown(Input.KEY_LEFT)) {
+			currentDirection = Direction.SOUTHWEST;
 		}
 	}
 
@@ -95,16 +119,20 @@ public class Player extends WorldEntity {
 
 	private void animateBasedOnCurrentDirection() {
 		switch (currentDirection) {
-		case UP:
+		case NORTH:
+		case NORTHWEST:
+		case NORTHEAST:
 			current = playerWalkingUp;
 			break;
-		case DOWN:
+		case SOUTH:
+		case SOUTHWEST:
+		case SOUTHEAST:
 			current = playerWalkingDown;
 			break;
-		case LEFT:
+		case WEST:
 			current = playerWalkingLeft;
 			break;
-		case RIGHT:
+		case EAST:
 			current = playerWalkingRight;
 			break;
 		}
