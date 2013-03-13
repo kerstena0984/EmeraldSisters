@@ -19,16 +19,13 @@
   </tile>
  </tileset>
  <layer name="Grass" width="40" height="40">
-  <properties>
-   <property name="blocked" value="false"/>
-  </properties>
   <data encoding="base64" compression="zlib">
    eJztwwEJAAAMBKHj+4dej6Hgqqmqqqqqqj56eyQMgQ==
   </data>
  </layer>
  <layer name="Rocks" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztl9ENACEIQ03cf+dbwHiC0VLb962hLSRKa2aVjhawwUz7qi9m/wgiebFmy6rb4KgwMxkN0Tuj8ze9V8jZaKM2g5F/VjYbtUwzvJbRCT/ojND1DQ8KOyrze1BBg6nDK3uO55qDvz4p9VHJ6y4fLRcAZA==
+   eJztmFELwCAIhAP//3/ewxjsocaROjXvg54y1NtFtTEIiijWPSOKr9wCxCDzXqD1RWFRn0VvMuZek8W8VU6P2J14LTN93jp56GdBh/3hCfo9Lfz7pwZZ9SZ96OZB5J6FxO7mIDenaeTRT7RG0flJHVCvVPZU5fMgQw0kD6e8c+jrGmT9dxlBp161XOQnANA=
   </data>
  </layer>
 </map>
