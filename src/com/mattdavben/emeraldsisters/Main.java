@@ -7,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Main extends StateBasedGame {
 
-	private final static String NAME = "Emerald Sisters | Pre-Alpha 0.1.0";
+	private final static String NAME = "Emerald Sisters | Pre-Alpha 0.0.1";
 	public static final int play = 1;
 	public static final int GAME_SCREEN_WIDTH = 800;
 	public static final int GAME_SCREEN_HEIGHT = 600;
