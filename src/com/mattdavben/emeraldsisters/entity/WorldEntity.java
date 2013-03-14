@@ -39,7 +39,11 @@ public class WorldEntity extends Entity {
 		gr.draw(copy);
 	}
 
-	public Shape getCollisionShapeCopy() {
+	public Polygon getCollisionShape() {
+		return collisionShape;
+	}
+
+	public Polygon getCollisionShapeCopy() {
 		return collisionShape.copy();
 	}
 
