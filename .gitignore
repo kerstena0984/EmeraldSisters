@@ -4,7 +4,7 @@ bin/com/mattdavben/emeraldsisters/entity/*.class
 bin/*
 
 # OS-specific files
-.DS_Store
+res/.DS_Store
 
 # IDE-specific files
 .classpath

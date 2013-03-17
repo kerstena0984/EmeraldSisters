@@ -9,19 +9,21 @@ import com.google.common.collect.Lists;
 
 public class QuadTree {
 
-	private int MAX_OBJECTS = 10;
-	private int MAX_LEVELS = 5;
+	private int MAX_OBJECTS = 70;
+	private int MAX_LEVELS = 8;
 
 	private int level;
 	private List<Shape> objects;
-	private Shape bounds;
-	private QuadTree[] nodes;
+	public Shape bounds;
+	public QuadTree[] nodes;
 
 	public QuadTree(int level, Shape bounds) {
 		this.level = level;
 		objects = Lists.newArrayList();
 		this.bounds = bounds;
 		nodes = new QuadTree[4];
+		
+		System.out.println(bounds);
 	}
 
 	public void clear() {
@@ -47,21 +49,21 @@ public class QuadTree {
 		nodes[3] = new QuadTree(level + 1, new Rectangle(x + subWidth, y + subHeight, subWidth, subHeight));
 	}
 
-	private int getIndex(Shape pRect) {
+	private int getIndex(Shape getIndexShape) {
 		int index = -1;
-		double verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2);
-		double horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2);
+		float verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2);
+		float horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2);
+		
+		boolean topQuadrant = (getIndexShape.getY() < horizontalMidpoint && getIndexShape.getY() + getIndexShape.getHeight() < horizontalMidpoint);
+		boolean bottomQuadrant = (getIndexShape.getY() > horizontalMidpoint);
 
-		boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY() + pRect.getHeight() < horizontalMidpoint);
-		boolean bottomQuadrant = (pRect.getY() > horizontalMidpoint);
-
-		if (pRect.getX() < verticalMidpoint && pRect.getX() + pRect.getWidth() < verticalMidpoint) {
+		if (getIndexShape.getX() < verticalMidpoint && getIndexShape.getX() + getIndexShape.getWidth() < verticalMidpoint) {
 			if (topQuadrant) {
 				index = 1;
 			} else if (bottomQuadrant) {
 				index = 2;
 			}
-		} else if (pRect.getX() > verticalMidpoint) {
+		} else if (getIndexShape.getX() > verticalMidpoint) {
 			if (topQuadrant) {
 				index = 0;
 			} else if (bottomQuadrant) {
@@ -72,17 +74,17 @@ public class QuadTree {
 		return index;
 	}
 	
-	public void insert(Shape pRect) {
+	public void insert(Shape insertShape) {
 		if (nodes[0] != null) {
-			int index = getIndex(pRect);
+			int index = getIndex(insertShape);
 
 			if (index != -1) {
-				nodes[index].insert(pRect);
+				nodes[index].insert(insertShape);
 				return;
 			}
 		}
 
-		objects.add(pRect);
+		objects.add(insertShape);
 
 		if (objects.size() > MAX_OBJECTS && level < MAX_LEVELS) {
 			if (nodes[0] == null) split();
@@ -96,10 +98,10 @@ public class QuadTree {
 		}
 	}
 
-	public List<Shape> retrieve(List<Shape> returnObjects, Shape pRect) {
-		int index = getIndex(pRect);
+	public List<Shape> retrieve(List<Shape> returnObjects, Shape surroundedShape) {
+		int index = getIndex(surroundedShape);
 		if (index != -1 && nodes[0] != null) {
-			nodes[index].retrieve(returnObjects, pRect);
+			nodes[index].retrieve(returnObjects, surroundedShape);
 		}
 
 		returnObjects.addAll(objects);

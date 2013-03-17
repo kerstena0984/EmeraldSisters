@@ -1,7 +1,6 @@
 package com.mattdavben.emeraldsisters.entity;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -16,9 +15,9 @@ public class Player extends WorldEntity {
 	private Animation current;
 	private Animation playerWalkingNorth, playerWalkingSouth, playerWalkingWest, playerWalkingEast;
 	private Animation playerWalkingNorthWest, playerWalkingNorthEast, playerWalkingSouthWest, playerWalkingSouthEast;
-	private int[] animationLength = { 150, 150, 150, 150 };
+	private int[] animationLength = { 80, 80, 80, 80, 80, 80, 80, 80 };
 	private final int SPRITE_WIDTH = 32;
-	private final int SPRITE_LENGTH = 48;
+	private final int SPRITE_HEIGHT = 48;
 	private Input input;
 	private Direction currentDirection;
 	public boolean blockedLeft;
@@ -27,11 +26,19 @@ public class Player extends WorldEntity {
 	public boolean blockedDown;
 
 	public Player(Input input) throws SlickException {
-		this.characterSheet = new SpriteSheet("TestingSprite.png", SPRITE_WIDTH, SPRITE_LENGTH);
+		this.characterSheet = new SpriteSheet("TestingSprite.png", SPRITE_WIDTH, SPRITE_HEIGHT);
 		this.input = input;
 
-		float[] points = { currentPosition.x + 1, currentPosition.y + 1, currentPosition.x + 1 + SPRITE_WIDTH - 2, currentPosition.y + 1, currentPosition.x + 1 + SPRITE_WIDTH - 2,
-				currentPosition.y + 1 + SPRITE_LENGTH / 2 - 2, currentPosition.x + 1, currentPosition.y + 1 + SPRITE_LENGTH / 2 - 2 };
+		float currentX = currentPosition.x;
+		float currentY = currentPosition.y;
+		float collisionBoxWidth = SPRITE_WIDTH - 8;
+		float collisionBoxHeight = SPRITE_HEIGHT / 2 - 2;
+		float collisionBoxOffset = 1;
+
+		float[] points = { currentX + collisionBoxOffset, currentY + collisionBoxOffset,
+				currentX + collisionBoxOffset + collisionBoxWidth, currentY + collisionBoxOffset,
+				currentX + collisionBoxOffset + collisionBoxWidth, currentY + collisionBoxOffset + collisionBoxHeight,
+				currentX + collisionBoxOffset, currentY + collisionBoxOffset + collisionBoxHeight };
 
 		collisionShape = new Polygon(points);
 		characterSheet.setFilter(Image.FILTER_NEAREST);
@@ -46,15 +53,17 @@ public class Player extends WorldEntity {
 	}
 
 	public void render(GameContainer gc, Viewport viewport, Graphics gr) {
+		gr.setAntiAlias(true);
+		
 		animateBasedOnCurrentDirection();
 
-		current.draw(currentPosition.x - viewport.position.x, currentPosition.y - viewport.position.y, new Color(1f, 1f, 1f, 0.5f));
+		current.draw(currentPosition.x - viewport.position.x, currentPosition.y - viewport.position.y);
 	}
 
 	public void update(GameContainer gc, int delta) {
 		updateDirectionBasedOnUserInput();
 
-		float speedInTilesPerSecond = 3.0f;
+		float speedInTilesPerSecond = 5.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
 
@@ -73,8 +82,8 @@ public class Player extends WorldEntity {
 			}
 		}
 
-		collisionShape.setX(currentPosition.x + 1);
-		collisionShape.setY(currentPosition.y + 25);
+		collisionShape.setX(currentPosition.x + 4);
+		collisionShape.setY(currentPosition.y + 24);
 	}
 
 	private enum Direction {
@@ -84,11 +93,14 @@ public class Player extends WorldEntity {
 	private void updateDirectionBasedOnUserInput() {
 		if (input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_RIGHT) && !input.isKeyDown(Input.KEY_LEFT)) {
 			currentDirection = Direction.NORTH;
-		} else if (input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_RIGHT) && !input.isKeyDown(Input.KEY_LEFT)) {
+		} else if (input.isKeyDown(Input.KEY_DOWN) && !input.isKeyDown(Input.KEY_RIGHT)
+				&& !input.isKeyDown(Input.KEY_LEFT)) {
 			currentDirection = Direction.SOUTH;
-		} else if (input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_DOWN)) {
+		} else if (input.isKeyDown(Input.KEY_LEFT) && !input.isKeyDown(Input.KEY_UP)
+				&& !input.isKeyDown(Input.KEY_DOWN)) {
 			currentDirection = Direction.WEST;
-		} else if (input.isKeyDown(Input.KEY_RIGHT) && !input.isKeyDown(Input.KEY_UP) && !input.isKeyDown(Input.KEY_DOWN)) {
+		} else if (input.isKeyDown(Input.KEY_RIGHT) && !input.isKeyDown(Input.KEY_UP)
+				&& !input.isKeyDown(Input.KEY_DOWN)) {
 			currentDirection = Direction.EAST;
 		} else if (input.isKeyDown(Input.KEY_UP) && input.isKeyDown(Input.KEY_RIGHT)) {
 			currentDirection = Direction.NORTHEAST;
@@ -102,7 +114,8 @@ public class Player extends WorldEntity {
 	}
 
 	private boolean movementButtonIsPressed() {
-		return input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_RIGHT);
+		return input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_DOWN) || input.isKeyDown(Input.KEY_LEFT)
+				|| input.isKeyDown(Input.KEY_RIGHT);
 	}
 
 	private void animateBasedOnCurrentDirection() {
@@ -147,10 +160,6 @@ public class Player extends WorldEntity {
 		Image northeast1 = characterSheet.getSubImage(7, 0);
 		Image northeast2 = characterSheet.getSubImage(8, 0);
 
-		Image south0 = characterSheet.getSubImage(0, 1);
-		Image south1 = characterSheet.getSubImage(1, 1);
-		Image south2 = characterSheet.getSubImage(2, 1);
-
 		Image southwest0 = characterSheet.getSubImage(3, 1);
 		Image southwest1 = characterSheet.getSubImage(4, 1);
 		Image southwest2 = characterSheet.getSubImage(5, 1);
@@ -167,8 +176,14 @@ public class Player extends WorldEntity {
 		Image west1 = characterSheet.getSubImage(4, 2);
 		Image west2 = characterSheet.getSubImage(5, 2);
 
+		Image south0 = characterSheet.getSubImage(0, 1);
+		Image south1 = characterSheet.getSubImage(1, 1);
+		Image south2 = characterSheet.getSubImage(2, 1);
+		Image south3 = characterSheet.getSubImage(3, 1);
+		Image south4 = characterSheet.getSubImage(4, 1);
+
 		Image[] north = { north0, north1, north0, north2 };
-		Image[] south = { south0, south1, south0, south2 };
+		Image[] south = { south0, south1, south2, south1, south0, south3, south4, south3, };
 		Image[] east = { east0, east1, east0, east2 };
 		Image[] west = { west0, west1, west0, west2 };
 		Image[] southwest = { southwest0, southwest1, southwest0, southwest2 };
@@ -177,13 +192,13 @@ public class Player extends WorldEntity {
 		Image[] northeast = { northeast0, northeast1, northeast0, northeast2 };
 
 		playerWalkingSouth = new Animation(south, animationLength, false);
-		playerWalkingNorth = new Animation(north, animationLength, false);
-		playerWalkingWest = new Animation(west, animationLength, false);
-		playerWalkingEast = new Animation(east, animationLength, false);
-		playerWalkingSouthWest = new Animation(southwest, animationLength, false);
-		playerWalkingNorthWest = new Animation(northwest, animationLength, false);
-		playerWalkingSouthEast = new Animation(southeast, animationLength, false);
-		playerWalkingNorthEast = new Animation(northeast, animationLength, false);
+		playerWalkingNorth = new Animation(south, animationLength, false);
+		playerWalkingWest = new Animation(south, animationLength, false);
+		playerWalkingEast = new Animation(south, animationLength, false);
+		playerWalkingSouthWest = new Animation(south, animationLength, false);
+		playerWalkingNorthWest = new Animation(south, animationLength, false);
+		playerWalkingSouthEast = new Animation(south, animationLength, false);
+		playerWalkingNorthEast = new Animation(south, animationLength, false);
 	}
 
 }
