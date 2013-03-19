@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 
 public class QuadTree {
 
-	private int MAX_OBJECTS = 70;
+	private int MAX_OBJECTS = 120;
 	private int MAX_LEVELS = 8;
 
 	private int level;
@@ -22,8 +22,6 @@ public class QuadTree {
 		objects = Lists.newArrayList();
 		this.bounds = bounds;
 		nodes = new QuadTree[4];
-		
-		System.out.println(bounds);
 	}
 
 	public void clear() {
