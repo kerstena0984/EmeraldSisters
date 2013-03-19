@@ -10,6 +10,7 @@
   <tile id="3">
    <properties>
     <property name="blocked" value="true"/>
+    <property name="interactive" value="true"/>
    </properties>
   </tile>
   <tile id="4">
@@ -18,14 +19,47 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="257" name="RPG_Maker_VX_RTP_Tileset_by_telles0808" tilewidth="32" tileheight="32">
+  <image source="../../Desktop/Sprites/RPG_Maker_VX_RTP_Tileset_by_telles0808.png" width="1024" height="2016"/>
+  <tile id="1214">
+   <properties>
+    <property name="transport" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1768">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1800">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1832">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Grass" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztwwEJAAAMBKHj+4dej6Hgqqmqqqqqqj56eyQMgQ==
+   eJztwwEJAAAMA6A93fo3Wo+jYC+pqqqqqqrqowPgk8IQ
   </data>
  </layer>
  <layer name="Rocks" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztmFELwCAIhAP//3/ewxjsocaROjXvg54y1NtFtTEIiijWPSOKr9wCxCDzXqD1RWFRn0VvMuZek8W8VU6P2J14LTN93jp56GdBh/3hCfo9Lfz7pwZZ9SZ96OZB5J6FxO7mIDenaeTRT7RG0flJHVCvVPZU5fMgQw0kD6e8c+jrGmT9dxlBp161XOQnANA=
+   eJztmG0KgCAMhv2RZEfp/gfoPN2iRAT/LKdNN3UPjAJXe/cRlcYoWE5Xf100Lr5ix7WcPi79WH1cUOijyC2ds/R+qT7Ix2Nf25Ijte7SHHP+WI0l8SCD1nvqg8DOX+xtSX8pGOH5xfSTYn571kBqvZV1kDSD927M4YL58xZgvrMwvrUxlMBsNWqRD3eNuOOvymW5FZSDnZWRZ2rk94EEDYocZvnPodqXUdoide+Sg5Vy/csDqrUQWQ==
+  </data>
+ </layer>
+ <layer name="Chests" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt0sEJAAAIA7E+3H9mV/AnaDJBoZdAUtsDeGHamR5v8ScAAAAAGxpjLwAR
+  </data>
+ </layer>
+ <layer name="Top Layer" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztxiEBAAAIA7A7+seiFQVQGMymlgAAwE3XfgAAAPg29QsBoQ==
   </data>
  </layer>
 </map>
