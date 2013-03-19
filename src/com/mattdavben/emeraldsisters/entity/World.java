@@ -21,27 +21,27 @@ public class World {
 	private QuadTree quadtree;
 	private Player player;
 	private Viewport viewport;
-	private ArrayList<Shape> nearbyObjectsToDraw;
 	private final static int TILE_WIDTH = 32;
 
 	public World(Input input) throws SlickException {
 		map = new TiledMap("res/testLevel.tmx");
 		collisionObjects = Lists.newArrayList();
 		worldEntities = Lists.newArrayList();
-		nearbyObjectsToDraw = Lists.newArrayList();
 		quadtree = new QuadTree(0, new Rectangle(0, 0, map.getWidth() * TILE_WIDTH, map.getHeight() * TILE_WIDTH));
 		player = new Player(input);
-		viewport = new Viewport();
+		viewport = new Viewport(map.getWidth() * 32, map.getHeight() * 32);
 
-		for (int x = 0; x < map.getWidth(); x++) {
-			for (int y = 0; y < map.getHeight(); y++) {
-				int tileID = map.getTileId(x, y, 1);
-				String value = map.getTileProperty(tileID, "blocked", "false");
-				if (!value.equals("false")) {
-					WorldEntity entity = new WorldEntity().withCollisionShape(x * TILE_WIDTH + 2, y * TILE_WIDTH + 2,
-							28, 28);
-					worldEntities.add(entity);
-					collisionObjects.add(entity.getCollisionShapeCopy());
+		for (int layer = 1; layer < map.getLayerCount() - 1; layer++) {
+			for (int x = 0; x < map.getWidth(); x++) {
+				for (int y = 0; y < map.getHeight(); y++) {
+					int tileID = map.getTileId(x, y, layer);
+					String blocked = map.getTileProperty(tileID, "blocked", "false");
+					if (blocked.equals("true")) {
+						WorldEntity entity = new WorldEntity().withCollisionShape(x * TILE_WIDTH, y * TILE_WIDTH, 32,
+								32);
+						worldEntities.add(entity);
+						collisionObjects.add(entity.getCollisionShapeCopy());
+					}
 				}
 			}
 		}
@@ -49,9 +49,11 @@ public class World {
 	}
 
 	public void render(GameContainer gc, Graphics gr) {
-		map.render((int) -viewport.position.x, (int) -viewport.position.y);
+		for (int i = 0; i < map.getLayerCount() - 2; i++)
+			map.render((int) -viewport.position.x, (int) -viewport.position.y);
 		player.render(gc, viewport, gr);
-//		player.renderCollisionBox(viewport, gr);
+		map.render((int) -viewport.position.x, (int) -viewport.position.y, map.getLayerCount() - 1);
+		// player.renderCollisionBox(viewport, gr);
 		// for (WorldEntity entity : worldEntities)
 		// entity.renderCollisionBox(viewport, gr);
 		//
@@ -76,7 +78,7 @@ public class World {
 		player.blockedUp = false;
 		player.blockedDown = false;
 
-		float speedInTilesPerSecond = 5.0f;
+		float speedInTilesPerSecond = 3.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
 
@@ -92,14 +94,10 @@ public class World {
 		Shape collisionShapeRight = player.getCollisionShapeCopy();
 		collisionShapeRight.setX(collisionShapeRight.getX() + distance);
 
-		nearbyObjectsToDraw.clear();
-
 		quadtree.retrieve(collidableShapesNearPlayer, player.getCollisionShape());
 
 		for (int k = 0; k < collidableShapesNearPlayer.size(); k++) {
 			if (!collidableShapesNearPlayer.get(k).equals(player.getCollisionShape())) {
-				nearbyObjectsToDraw.add(collidableShapesNearPlayer.get(k));
-
 				if (collisionShapeUp.intersects(collidableShapesNearPlayer.get(k))) {
 					player.blockedUp = true;
 				}
@@ -114,7 +112,7 @@ public class World {
 				}
 			}
 		}
-		
+
 		player.update(gc, delta);
 		viewport.update(player);
 	}

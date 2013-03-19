@@ -7,8 +7,11 @@ import com.mattdavben.emeraldsisters.Main;
 public class Viewport {
 
 	public Vector2f position;
+	private int mapWidth, mapHeight;
 
-	public Viewport() {
+	public Viewport(int mapWidth, int mapHeight) {
+		this.mapWidth = mapWidth;
+		this.mapHeight = mapHeight;
 		position = new Vector2f(0, 0);
 	}
 	
@@ -18,8 +21,8 @@ public class Viewport {
 
 		if (position.x <= 0.0f) position.x = 0.0f;
 		if (position.y <= 0.0f) position.y = 0.0f;
-		if (position.x >= (1280 - Main.GAME_SCREEN_WIDTH)) position.x = (1280 - Main.GAME_SCREEN_WIDTH);
-		if (position.y >= (1280 - Main.GAME_SCREEN_HEIGHT)) position.y = (1280 - Main.GAME_SCREEN_HEIGHT);
+		if (position.x >= (mapWidth - Main.GAME_SCREEN_WIDTH)) position.x = (mapWidth - Main.GAME_SCREEN_WIDTH);
+		if (position.y >= (mapHeight - Main.GAME_SCREEN_HEIGHT)) position.y = (mapHeight - Main.GAME_SCREEN_HEIGHT);
 	}
 
 }

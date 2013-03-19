@@ -15,7 +15,7 @@ public class Player extends WorldEntity {
 	private Animation current;
 	private Animation playerWalkingNorth, playerWalkingSouth, playerWalkingWest, playerWalkingEast;
 	private Animation playerWalkingNorthWest, playerWalkingNorthEast, playerWalkingSouthWest, playerWalkingSouthEast;
-	private int[] animationLength = { 80, 80, 80, 80, 80, 80, 80, 80 };
+	private int[] animationLength = { 100, 100, 100, 100, 100, 100, 100, 100 };
 	private final int SPRITE_WIDTH = 32;
 	private final int SPRITE_HEIGHT = 48;
 	private Input input;
@@ -63,7 +63,7 @@ public class Player extends WorldEntity {
 	public void update(GameContainer gc, int delta) {
 		updateDirectionBasedOnUserInput();
 
-		float speedInTilesPerSecond = 5.0f;
+		float speedInTilesPerSecond = 3.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
 
