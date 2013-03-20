@@ -24,12 +24,19 @@ public class World {
 	private final static int TILE_WIDTH = 32;
 
 	public World(Input input) throws SlickException {
-		map = new TiledMap("res/testLevel.tmx");
+		map = new TiledMap("res/throneRoom.tmx");
 		collisionObjects = Lists.newArrayList();
 		worldEntities = Lists.newArrayList();
 		quadtree = new QuadTree(0, new Rectangle(0, 0, map.getWidth() * TILE_WIDTH, map.getHeight() * TILE_WIDTH));
-		player = new Player(input);
-		viewport = new Viewport(map.getWidth() * 32, map.getHeight() * 32);
+		
+		String startingXTileString = map.getLayerProperty(0, "startingXTile", "0");
+		float startingXPosition = Float.parseFloat(startingXTileString) * TILE_WIDTH;
+		String startingYTileString = map.getLayerProperty(0, "startingYTile", "0");
+		float startingYPosition = Float.parseFloat(startingYTileString) * TILE_WIDTH;
+		
+		player = new Player(input, startingXPosition, startingYPosition);
+		
+		viewport = new Viewport(map.getWidth() * TILE_WIDTH, map.getHeight() * TILE_WIDTH);
 
 		for (int layer = 1; layer < map.getLayerCount() - 1; layer++) {
 			for (int x = 0; x < map.getWidth(); x++) {
@@ -37,8 +44,8 @@ public class World {
 					int tileID = map.getTileId(x, y, layer);
 					String blocked = map.getTileProperty(tileID, "blocked", "false");
 					if (blocked.equals("true")) {
-						WorldEntity entity = new WorldEntity().withCollisionShape(x * TILE_WIDTH, y * TILE_WIDTH, 32,
-								32);
+						WorldEntity entity = new WorldEntity().withCollisionShape(x * TILE_WIDTH + 3, y * TILE_WIDTH + 3, TILE_WIDTH - 6,
+								TILE_WIDTH - 6);
 						worldEntities.add(entity);
 						collisionObjects.add(entity.getCollisionShapeCopy());
 					}
@@ -53,17 +60,6 @@ public class World {
 			map.render((int) -viewport.position.x, (int) -viewport.position.y);
 		player.render(gc, viewport, gr);
 		map.render((int) -viewport.position.x, (int) -viewport.position.y, map.getLayerCount() - 1);
-		// player.renderCollisionBox(viewport, gr);
-		// for (WorldEntity entity : worldEntities)
-		// entity.renderCollisionBox(viewport, gr);
-		//
-		// for (Shape shape : nearbyObjectsToDraw) {
-		// Polygon polygon = (Polygon) shape;
-		// polygon = polygon.copy();
-		// polygon.setX(polygon.getX() - viewport.position.x);
-		// polygon.setY(polygon.getY() - viewport.position.y);
-		// gr.draw(polygon);
-		// }
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {

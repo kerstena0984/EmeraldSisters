@@ -42,7 +42,11 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Grass" width="40" height="40">
+ <layer name="Base" width="40" height="40">
+  <properties>
+   <property name="startingXTile" value="10"/>
+   <property name="startingYTile" value="7"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztwwEJAAAMA6A93fo3Wo+jYC+pqqqqqqrqowPgk8IQ
   </data>

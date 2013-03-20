@@ -8,6 +8,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Vector2f;
 
 public class Player extends WorldEntity {
 
@@ -25,9 +26,11 @@ public class Player extends WorldEntity {
 	public boolean blockedUp;
 	public boolean blockedDown;
 
-	public Player(Input input) throws SlickException {
+	public Player(Input input, float startingX, float startingY) throws SlickException {
 		this.characterSheet = new SpriteSheet("TestingSprite.png", SPRITE_WIDTH, SPRITE_HEIGHT);
 		this.input = input;
+		
+		this.currentPosition = new Vector2f(startingX, startingY);
 
 		float currentX = currentPosition.x;
 		float currentY = currentPosition.y;
@@ -53,8 +56,6 @@ public class Player extends WorldEntity {
 	}
 
 	public void render(GameContainer gc, Viewport viewport, Graphics gr) {
-		gr.setAntiAlias(true);
-		
 		animateBasedOnCurrentDirection();
 
 		current.draw(currentPosition.x - viewport.position.x, currentPosition.y - viewport.position.y);

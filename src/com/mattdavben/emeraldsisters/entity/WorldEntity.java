@@ -5,7 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Vector2f;
 
 public class WorldEntity extends Entity {
 
@@ -15,7 +14,6 @@ public class WorldEntity extends Entity {
 	}
 
 	public WorldEntity withCollisionShape(int startingX, int startingY, int width, int height) {
-		this.currentPosition = new Vector2f(startingX, startingY);
 		float[] points = { startingX, startingY, startingX + width, startingY, startingX + width, startingY + height, startingX, startingY + height };
 		this.collisionShape = new Polygon(points);
 		return this;

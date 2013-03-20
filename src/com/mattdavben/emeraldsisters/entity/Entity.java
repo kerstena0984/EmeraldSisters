@@ -9,7 +9,6 @@ public abstract class Entity {
 	protected Vector2f currentPosition;
 
 	public Entity() {
-		currentPosition = new Vector2f(0, 0);
 	}
 
 	public Vector2f getPosition() {
