@@ -5,6 +5,7 @@ bin/*
 
 # OS-specific files
 res/.DS_Store
+.DS_Store
 
 # IDE-specific files
 .classpath
