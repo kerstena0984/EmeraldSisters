@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="40" height="40" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="startingXTile" value="10"/>
+  <property name="startingYTile" value="7"/>
+ </properties>
  <tileset firstgid="1" name="newSheet" tilewidth="32" tileheight="32">
   <image source="newSheet.png" width="512" height="512"/>
   <tile id="2">
@@ -43,10 +47,6 @@
   </tile>
  </tileset>
  <layer name="Base" width="40" height="40">
-  <properties>
-   <property name="startingXTile" value="10"/>
-   <property name="startingYTile" value="7"/>
-  </properties>
   <data encoding="base64" compression="zlib">
    eJztwwEJAAAMA6A93fo3Wo+jYC+pqqqqqqrqowPgk8IQ
   </data>

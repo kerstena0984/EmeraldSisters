@@ -95,9 +95,9 @@ public class Environment {
 	}
 
 	public Vector2f getPlayerStartingPosition() {
-		String startingXTileString = map.getLayerProperty(0, "startingXTile", "0");
+		String startingXTileString = map.getMapProperty("startingXTile", "0");
 		float startingXPosition = Float.parseFloat(startingXTileString) * TILE_WIDTH;
-		String startingYTileString = map.getLayerProperty(0, "startingYTile", "0");
+		String startingYTileString = map.getMapProperty("startingYTile", "0");
 		float startingYPosition = Float.parseFloat(startingYTileString) * TILE_WIDTH;
 		return new Vector2f(startingXPosition, startingYPosition - (Player.SPRITE_HEIGHT / 2));
 	}
@@ -111,7 +111,7 @@ public class Environment {
 	}
 
 	private void buildCollisionMap() {
-		for (int layer = 1; layer < map.getLayerCount() - 1; layer++) {
+		for (int layer = 1; layer < map.getLayerCount(); layer++) {
 			for (int x = 0; x < map.getWidth(); x++) {
 				for (int y = 0; y < map.getHeight(); y++) {
 					int tileID = map.getTileId(x, y, layer);
