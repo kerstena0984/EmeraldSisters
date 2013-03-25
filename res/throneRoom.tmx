@@ -7,6 +7,11 @@
     <property name="blocked" value="true"/>
    </properties>
   </tile>
+  <tile id="133">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
   <tile id="1847">
    <properties>
     <property name="blocked" value="true"/>
@@ -31,7 +36,7 @@
  <layer name="Base" width="20" height="20">
   <properties>
    <property name="startingXTile" value="8"/>
-   <property name="startingYTile" value="19"/>
+   <property name="startingYTile" value="18"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJxrZ2BgaKcTnsaGHZNr3jY27Jhe/hnFgw+n4cC8ZOobaP+M4lE8mDEA+UHSpw==
@@ -39,12 +44,12 @@
  </layer>
  <layer name="Awning" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYKAPiGNnYIjHgRPYSTevDknPVCB7Gjt2OWJAFFD9PCQ9W4HsbUh8kFw0CWZWEaG2mgTzFIhQS4waGHAgQi0xakixe6Ddxwuk+XBg/kHgPmqoIcXuUfdRZvdwdd8CFsJqkAEAZeQRYw==
+   eJxjYKAPiGNnYIjHgRPYSTevDknPVCB7Gjt2OWJAFFD9PCQ9W4HsbUh8kFw0CWZWEaG2mgTzFIhQS4waGHAgQi0xakixe6Ddxwuk+XBg/kHgPmqoIcXuUfdRZvdgcd8CFgR7Pgt2NaTY3UaEGmQAAPwcEow=
   </data>
  </layer>
  <layer name="Flag" width="20" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBiaQJCdPDlcwBCPHnxyo2AUjIJRMFIBAE+RAKE=
+   eJxrY2BgaKMyphbAZ54gO259uOTwmWeIxzxccvT076h5o+aNmjdqHjXMI1R2k1LWAwDeRSfj
   </data>
  </layer>
  <layer name="Chairs" width="20" height="20">

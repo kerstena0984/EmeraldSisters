@@ -53,7 +53,7 @@
  </layer>
  <layer name="Rocks" width="40" height="40">
   <data encoding="base64" compression="zlib">
-   eJztmG0KgCAMhv2RZEfp/gfoPN2iRAT/LKdNN3UPjAJXe/cRlcYoWE5Xf100Lr5ix7WcPi79WH1cUOijyC2ds/R+qT7Ix2Nf25Ijte7SHHP+WI0l8SCD1nvqg8DOX+xtSX8pGOH5xfSTYn571kBqvZV1kDSD927M4YL58xZgvrMwvrUxlMBsNWqRD3eNuOOvymW5FZSDnZWRZ2rk94EEDYocZvnPodqXUdoide+Sg5Vy/csDqrUQWQ==
+   eJztmG0OgzAIhvmxRncU73+AnWe3cMuyhDQthUKRqm/S2EQKj/QDdVsBtuAtinIWLt9Rz4JjUrE5Npz7UknyNyI+J64XX8/YnK+2bzAftbfSpz3QVctd4+CqZc9lpPxT+cvzJD2brPkoO3yleBLI5rcV9yz7l2NrsX5L622UtL6j1d9cN59OHnzammjJ914Anuuvfftalfg471kc21Zcrt1V15+F30j5q9US73dOqX/JfvBWpPktaRTfK9n48cyf5MzD/Znmd3Q96PHbk3cvzTa/0XSW+nvUN1QEvlbcq6w/62/3/5gZ8xeFmfqfFqXtNXcuNQ==
   </data>
  </layer>
  <layer name="Chests" width="40" height="40">
