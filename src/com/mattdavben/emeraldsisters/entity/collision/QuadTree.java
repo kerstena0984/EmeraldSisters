@@ -9,7 +9,7 @@ import com.google.common.collect.Lists;
 
 public class QuadTree {
 
-	private int MAX_OBJECTS = 120;
+	private int MAX_OBJECTS = 400;
 	private int MAX_LEVELS = 8;
 
 	private int level;
