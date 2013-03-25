@@ -17,8 +17,8 @@ public class Player extends WorldEntity {
 	private Animation playerWalkingNorth, playerWalkingSouth, playerWalkingWest, playerWalkingEast;
 	private Animation playerWalkingNorthWest, playerWalkingNorthEast, playerWalkingSouthWest, playerWalkingSouthEast;
 	private int[] animationLength = { 100, 100, 100, 100, 100, 100, 100, 100 };
-	private final int SPRITE_WIDTH = 32;
-	private final int SPRITE_HEIGHT = 48;
+	public final static int SPRITE_WIDTH = 32;
+	public final static int SPRITE_HEIGHT = 48;
 	private Input input;
 	private Direction currentDirection;
 	public boolean blockedLeft;
@@ -26,11 +26,11 @@ public class Player extends WorldEntity {
 	public boolean blockedUp;
 	public boolean blockedDown;
 
-	public Player(Input input, float startingX, float startingY) throws SlickException {
+	public Player(Input input, Vector2f startingPosition) throws SlickException {
 		this.characterSheet = new SpriteSheet("TestingSprite.png", SPRITE_WIDTH, SPRITE_HEIGHT);
 		this.input = input;
 		
-		this.currentPosition = new Vector2f(startingX, startingY);
+		this.currentPosition = startingPosition;
 
 		float currentX = currentPosition.x;
 		float currentY = currentPosition.y;
