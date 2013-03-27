@@ -1,10 +1,11 @@
-package com.mattdavben.emeraldsisters.entity;
+package com.mattdavben.emeraldsisters;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
+import com.mattdavben.emeraldsisters.entity.Player;
 import com.mattdavben.emeraldsisters.map.Environment;
 
 public class World {
@@ -24,13 +25,13 @@ public class World {
 
 	public void render(GameContainer gc, Graphics gr) {
 		environment.renderBottomLayers(viewport);
-		player.render(gc, viewport, gr);
+		player.render(viewport);
 		environment.renderTopLayers(viewport);
 	}
 
 	public void update(GameContainer gc, int delta) throws SlickException {
 		environment.update(player, delta);
-		player.update(gc, delta);
+		player.update(delta);
 		viewport.update(player);
 	}
 }
