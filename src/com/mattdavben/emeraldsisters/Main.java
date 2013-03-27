@@ -19,7 +19,6 @@ public class Main extends StateBasedGame {
 
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
-		this.getState(play).init(container, this);
 		this.enterState(play);
 	}
 
@@ -32,7 +31,6 @@ public class Main extends StateBasedGame {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }

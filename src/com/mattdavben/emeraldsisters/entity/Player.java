@@ -1,8 +1,6 @@
 package com.mattdavben.emeraldsisters.entity;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -10,7 +8,13 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Vector2f;
 
-public class Player extends WorldEntity {
+import com.google.common.eventbus.Subscribe;
+import com.mattdavben.emeraldsisters.EventNexus;
+import com.mattdavben.emeraldsisters.Viewport;
+import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
+import com.mattdavben.emeraldsisters.player.PlayerMoveListener;
+
+public class Player extends WorldEntity implements PlayerMoveListener {
 
 	private SpriteSheet characterSheet;
 	private Animation current;
@@ -27,9 +31,11 @@ public class Player extends WorldEntity {
 	public boolean blockedDown;
 
 	public Player(Input input, Vector2f startingPosition) throws SlickException {
+		EventNexus.register(this);
+
 		this.characterSheet = new SpriteSheet("TestingSprite.png", SPRITE_WIDTH, SPRITE_HEIGHT);
 		this.input = input;
-		
+
 		this.currentPosition = startingPosition;
 
 		float currentX = currentPosition.x;
@@ -55,13 +61,13 @@ public class Player extends WorldEntity {
 		blockedDown = false;
 	}
 
-	public void render(GameContainer gc, Viewport viewport, Graphics gr) {
+	public void render(Viewport viewport) {
 		animateBasedOnCurrentDirection();
 
 		current.draw(currentPosition.x - viewport.position.x, currentPosition.y - viewport.position.y);
 	}
 
-	public void update(GameContainer gc, int delta) {
+	public void update(int delta) {
 		updateDirectionBasedOnUserInput();
 
 		float speedInTilesPerSecond = 3.0f;
@@ -149,33 +155,33 @@ public class Player extends WorldEntity {
 	}
 
 	private void setAnimations() {
-		Image north0 = characterSheet.getSubImage(0, 0);
-		Image north1 = characterSheet.getSubImage(1, 0);
-		Image north2 = characterSheet.getSubImage(2, 0);
-
-		Image northwest0 = characterSheet.getSubImage(3, 0);
-		Image northwest1 = characterSheet.getSubImage(4, 0);
-		Image northwest2 = characterSheet.getSubImage(5, 0);
-
-		Image northeast0 = characterSheet.getSubImage(6, 0);
-		Image northeast1 = characterSheet.getSubImage(7, 0);
-		Image northeast2 = characterSheet.getSubImage(8, 0);
-
-		Image southwest0 = characterSheet.getSubImage(3, 1);
-		Image southwest1 = characterSheet.getSubImage(4, 1);
-		Image southwest2 = characterSheet.getSubImage(5, 1);
-
-		Image southeast0 = characterSheet.getSubImage(6, 1);
-		Image southeast1 = characterSheet.getSubImage(7, 1);
-		Image southeast2 = characterSheet.getSubImage(8, 1);
-
-		Image east0 = characterSheet.getSubImage(0, 2);
-		Image east1 = characterSheet.getSubImage(1, 2);
-		Image east2 = characterSheet.getSubImage(2, 2);
-
-		Image west0 = characterSheet.getSubImage(3, 2);
-		Image west1 = characterSheet.getSubImage(4, 2);
-		Image west2 = characterSheet.getSubImage(5, 2);
+		// Image north0 = characterSheet.getSubImage(0, 0);
+		// Image north1 = characterSheet.getSubImage(1, 0);
+		// Image north2 = characterSheet.getSubImage(2, 0);
+		//
+		// Image northwest0 = characterSheet.getSubImage(3, 0);
+		// Image northwest1 = characterSheet.getSubImage(4, 0);
+		// Image northwest2 = characterSheet.getSubImage(5, 0);
+		//
+		// Image northeast0 = characterSheet.getSubImage(6, 0);
+		// Image northeast1 = characterSheet.getSubImage(7, 0);
+		// Image northeast2 = characterSheet.getSubImage(8, 0);
+		//
+		// Image southwest0 = characterSheet.getSubImage(3, 1);
+		// Image southwest1 = characterSheet.getSubImage(4, 1);
+		// Image southwest2 = characterSheet.getSubImage(5, 1);
+		//
+		// Image southeast0 = characterSheet.getSubImage(6, 1);
+		// Image southeast1 = characterSheet.getSubImage(7, 1);
+		// Image southeast2 = characterSheet.getSubImage(8, 1);
+		//
+		// Image east0 = characterSheet.getSubImage(0, 2);
+		// Image east1 = characterSheet.getSubImage(1, 2);
+		// Image east2 = characterSheet.getSubImage(2, 2);
+		//
+		// Image west0 = characterSheet.getSubImage(3, 2);
+		// Image west1 = characterSheet.getSubImage(4, 2);
+		// Image west2 = characterSheet.getSubImage(5, 2);
 
 		Image south0 = characterSheet.getSubImage(0, 1);
 		Image south1 = characterSheet.getSubImage(1, 1);
@@ -183,14 +189,14 @@ public class Player extends WorldEntity {
 		Image south3 = characterSheet.getSubImage(3, 1);
 		Image south4 = characterSheet.getSubImage(4, 1);
 
-		Image[] north = { north0, north1, north0, north2 };
+//		Image[] north = { north0, north1, north0, north2 };
 		Image[] south = { south0, south1, south2, south1, south0, south3, south4, south3, };
-		Image[] east = { east0, east1, east0, east2 };
-		Image[] west = { west0, west1, west0, west2 };
-		Image[] southwest = { southwest0, southwest1, southwest0, southwest2 };
-		Image[] southeast = { southeast0, southeast1, southeast0, southeast2 };
-		Image[] northwest = { northwest0, northwest1, northwest0, northwest2 };
-		Image[] northeast = { northeast0, northeast1, northeast0, northeast2 };
+//		Image[] east = { east0, east1, east0, east2 };
+//		Image[] west = { west0, west1, west0, west2 };
+//		Image[] southwest = { southwest0, southwest1, southwest0, southwest2 };
+//		Image[] southeast = { southeast0, southeast1, southeast0, southeast2 };
+//		Image[] northwest = { northwest0, northwest1, northwest0, northwest2 };
+//		Image[] northeast = { northeast0, northeast1, northeast0, northeast2 };
 
 		playerWalkingSouth = new Animation(south, animationLength, false);
 		playerWalkingNorth = new Animation(south, animationLength, false);
@@ -200,6 +206,11 @@ public class Player extends WorldEntity {
 		playerWalkingNorthWest = new Animation(south, animationLength, false);
 		playerWalkingSouthEast = new Animation(south, animationLength, false);
 		playerWalkingNorthEast = new Animation(south, animationLength, false);
+	}
+
+	@Subscribe
+	public void listen(PlayerMoveEvent event) {
+		this.currentPosition = event.getNewPosition();
 	}
 
 }

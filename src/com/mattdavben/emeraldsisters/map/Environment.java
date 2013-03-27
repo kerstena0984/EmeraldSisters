@@ -9,12 +9,14 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.google.common.collect.Lists;
+import com.mattdavben.emeraldsisters.EventNexus;
+import com.mattdavben.emeraldsisters.Viewport;
 import com.mattdavben.emeraldsisters.entity.Player;
-import com.mattdavben.emeraldsisters.entity.Viewport;
 import com.mattdavben.emeraldsisters.entity.WorldEntity;
 import com.mattdavben.emeraldsisters.entity.collision.QuadTree;
+import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
 
-public class Environment {
+public class Environment implements MapTransitionListener {
 
 	private TiledMap map;
 	private int width, height;
@@ -24,10 +26,12 @@ public class Environment {
 	private QuadTree quadtree;
 
 	public Environment(String nameOfLevel) throws SlickException {
+		EventNexus.register(this);
+
 		this.map = new TiledMap("res/" + nameOfLevel + ".tmx");
 		this.width = map.getWidth();
 		this.height = map.getHeight();
-		
+
 		collisionObjects = Lists.newArrayList();
 		worldEntities = Lists.newArrayList();
 		quadtree = new QuadTree(0, new Rectangle(0, 0, map.getWidth() * TILE_WIDTH, map.getHeight() * TILE_WIDTH));
@@ -36,7 +40,7 @@ public class Environment {
 	}
 
 	public void renderBottomLayers(Viewport viewport) {
-		for (int i = 0; i < map.getLayerCount() - 1; i++){
+		for (int i = 0; i < map.getLayerCount() - 1; i++) {
 			map.render((int) -viewport.position.x, (int) -viewport.position.y, i);
 		}
 	}
@@ -44,12 +48,11 @@ public class Environment {
 	public void renderTopLayers(Viewport viewport) {
 		map.render((int) -viewport.position.x, (int) -viewport.position.y, map.getLayerCount() - 1);
 	}
-	
+
 	public void update(Player player, int delta) {
 		quadtree.clear();
 		for (Shape shape : collisionObjects)
 			quadtree.insert(shape);
-		
 
 		ArrayList<Shape> collidableShapesNearPlayer = Lists.newArrayList();
 
@@ -61,6 +64,10 @@ public class Environment {
 		float speedInTilesPerSecond = 3.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
+		
+		if (player.getCollisionShape().intersects(new Rectangle((int) 21.5 * 32, (int) 25.5 * 32, 16, 16))) {
+			EventNexus.post(new MapTransitionEvent("throneRoom"));
+		}
 
 		Shape collisionShapeUp = player.getCollisionShapeCopy();
 		collisionShapeUp.setY(collisionShapeUp.getY() - distance);
@@ -92,6 +99,24 @@ public class Environment {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void listen(MapTransitionEvent event) {
+		transitionToNewMap(event.getNewMap());
+		EventNexus.post(new PlayerMoveEvent(getPlayerStartingPosition()));
+	}
+
+	public void transitionToNewMap(String newMap) {
+		try {
+			this.map = new TiledMap("res/" + newMap + ".tmx");
+		} catch (SlickException e) {
+			e.printStackTrace();
+			System.out.println("Could not transition to " + newMap);
+		}
+
+		collisionObjects.clear();
+		buildCollisionMap();
 	}
 
 	public Vector2f getPlayerStartingPosition() {
@@ -126,5 +151,4 @@ public class Environment {
 			}
 		}
 	}
-
 }

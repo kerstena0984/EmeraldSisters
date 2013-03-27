@@ -6,6 +6,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 
+import com.mattdavben.emeraldsisters.Viewport;
+
 public class WorldEntity extends Entity {
 
 	protected Polygon collisionShape;
