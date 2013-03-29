@@ -27,6 +27,7 @@
   <image source="../../Desktop/Sprites/RPG_Maker_VX_RTP_Tileset_by_telles0808.png" width="1024" height="2016"/>
   <tile id="1214">
    <properties>
+    <property name="destination" value="throneRoom"/>
     <property name="transport" value="true"/>
    </properties>
   </tile>

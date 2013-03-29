@@ -56,12 +56,9 @@ public class Environment implements MapTransitionListener {
 
 		ArrayList<Shape> collidableShapesNearPlayer = Lists.newArrayList();
 
-		player.blockedLeft = false;
-		player.blockedRight = false;
-		player.blockedUp = false;
-		player.blockedDown = false;
+		player.setToNotBlocked();
 
-		float speedInTilesPerSecond = 3.0f;
+		float speedInTilesPerSecond = 5.0f;
 		float pixelsPerTile = 32.0f;
 		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
 		
@@ -120,11 +117,12 @@ public class Environment implements MapTransitionListener {
 	}
 
 	public Vector2f getPlayerStartingPosition() {
+		int verticalSpriteOffset = 24;
 		String startingXTileString = map.getMapProperty("startingXTile", "0");
 		float startingXPosition = Float.parseFloat(startingXTileString) * TILE_WIDTH;
 		String startingYTileString = map.getMapProperty("startingYTile", "0");
 		float startingYPosition = Float.parseFloat(startingYTileString) * TILE_WIDTH;
-		return new Vector2f(startingXPosition, startingYPosition - (Player.SPRITE_HEIGHT / 2));
+		return new Vector2f(startingXPosition, startingYPosition - (verticalSpriteOffset));
 	}
 
 	public int getWidth() {
