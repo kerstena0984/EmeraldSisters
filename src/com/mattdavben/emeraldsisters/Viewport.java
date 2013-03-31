@@ -1,10 +1,16 @@
 package com.mattdavben.emeraldsisters;
 
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.tiled.TiledMap;
 
+import com.google.common.eventbus.Subscribe;
 import com.mattdavben.emeraldsisters.entity.Player;
+import com.mattdavben.emeraldsisters.map.Environment;
+import com.mattdavben.emeraldsisters.map.MapTransitionEvent;
+import com.mattdavben.emeraldsisters.map.MapTransitionListener;
 
-public class Viewport {
+public class Viewport implements MapTransitionListener{
 
 	public Vector2f position;
 	private int mapWidth, mapHeight;
@@ -13,6 +19,14 @@ public class Viewport {
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
 		position = new Vector2f(0, 0);
+		
+		EventNexus.register(this);
+	}
+	
+	public void setWidthAndHeight(int mapWidth, int mapHeight) {
+		System.out.println(mapWidth + " " + mapHeight);
+		this.mapWidth = mapWidth;
+		this.mapHeight = mapHeight;
 	}
 	
 	public void update(Player player) {
@@ -23,6 +37,18 @@ public class Viewport {
 		if (position.y <= 0.0f) position.y = 0.0f;
 		if (position.x >= (mapWidth - Main.GAME_SCREEN_WIDTH)) position.x = (mapWidth - Main.GAME_SCREEN_WIDTH);
 		if (position.y >= (mapHeight - Main.GAME_SCREEN_HEIGHT)) position.y = (mapHeight - Main.GAME_SCREEN_HEIGHT);
+	}
+
+	@Subscribe
+	public void listen(MapTransitionEvent event) {
+		try {
+			TiledMap map = new TiledMap("res/" + event.getNewMap() + ".tmx");
+			setWidthAndHeight(map.getWidth() * Environment.TILE_WIDTH, map.getHeight() * Environment.TILE_WIDTH);
+		} catch (SlickException e) {
+			System.out.println("Viewport could not reset width/height because TiledMap does not exist!");
+			e.printStackTrace();
+		}
+		
 	}
 
 }

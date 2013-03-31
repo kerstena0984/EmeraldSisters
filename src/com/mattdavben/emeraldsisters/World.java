@@ -13,14 +13,13 @@ public class World {
 	private Player player;
 	private Viewport viewport;
 	private Environment environment;
-	private final static int TILE_WIDTH = 32;
 
 	public World(Input input) throws SlickException {
 		environment = new Environment("testLevel");
 		
 		player = new Player(input, environment.getPlayerStartingPosition());
 		
-		viewport = new Viewport(environment.getWidth() * TILE_WIDTH, environment.getHeight() * TILE_WIDTH);
+		viewport = new Viewport(environment.getWidth() * Environment.TILE_WIDTH, environment.getHeight() * Environment.TILE_WIDTH);
 	}
 
 	public void render(GameContainer gc, Graphics gr) {

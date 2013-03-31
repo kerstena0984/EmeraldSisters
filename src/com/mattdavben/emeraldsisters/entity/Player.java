@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Vector2f;
 import com.google.common.eventbus.Subscribe;
 import com.mattdavben.emeraldsisters.EventNexus;
 import com.mattdavben.emeraldsisters.Viewport;
+import com.mattdavben.emeraldsisters.map.Environment;
 import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
 import com.mattdavben.emeraldsisters.player.PlayerMoveListener;
 import com.mattdavben.emeraldsisters.sprite.CharacterSprite;
@@ -20,6 +21,7 @@ public class Player extends WorldEntity implements PlayerMoveListener {
 	public boolean blockedUp;
 	public boolean blockedDown;
 	private CharacterSprite sprite;
+	public final static float WALKING_SPEED = 5.0f;
 
 	public Player(Input input, Vector2f startingPosition) throws SlickException {
 		EventNexus.register(this);
@@ -54,9 +56,7 @@ public class Player extends WorldEntity implements PlayerMoveListener {
 	public void update(int delta) {
 		updateDirectionBasedOnUserInput();
 
-		float speedInTilesPerSecond = 5.0f;
-		float pixelsPerTile = 32.0f;
-		float distance = speedInTilesPerSecond * pixelsPerTile * delta / 1000f;
+		float distance = WALKING_SPEED * Environment.TILE_WIDTH * delta / 1000f;
 
 		if (movementButtonIsPressed()) {
 			sprite.update(delta);

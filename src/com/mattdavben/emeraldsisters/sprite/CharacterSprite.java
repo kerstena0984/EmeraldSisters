@@ -14,7 +14,8 @@ public class CharacterSprite {
 	private Animation current;
 	private Animation playerWalkingNorth, playerWalkingSouth, playerWalkingWest, playerWalkingEast;
 	private Animation playerWalkingNorthWest, playerWalkingNorthEast, playerWalkingSouthWest, playerWalkingSouthEast;
-	private int[] animationLength = { 100, 100, 100, 100, 100, 100, 100, 100 };
+	private int msBetweenAnimationFrames = 100;
+	private int[] animationLength = { msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames};
 	private Direction currentDirection;
 	public final int spriteWidth = 32;
 	public final int spriteHeight = 48;
