@@ -55,6 +55,12 @@ public class CollisionMap {
 		if (player.getCollisionShape().intersects(completelyArbitraryRectangle)) {
 			EventNexus.post(new MapTransitionEvent("throneRoom"));
 		}
+		
+		Rectangle tinyRoomRectangle = new Rectangle((int) 11.5 * 32, (int) 18.5 * 32, 16, 16);
+
+		if (player.getCollisionShape().intersects(tinyRoomRectangle)) {
+			EventNexus.post(new MapTransitionEvent("tinyRoom"));
+		}
 
 		Shape collisionShapeUp = player.getCollisionShapeCopy();
 		collisionShapeUp.setY(collisionShapeUp.getY() - distance);
@@ -92,7 +98,7 @@ public class CollisionMap {
 		collisionObjects.clear();
 		worldEntities.clear();
 
-		for (int layer = 1; layer < map.getLayerCount(); layer++) {
+		for (int layer = 0; layer < map.getLayerCount(); layer++) {
 			for (int x = 0; x < map.getWidth(); x++) {
 				for (int y = 0; y < map.getHeight(); y++) {
 					int tileID = map.getTileId(x, y, layer);
