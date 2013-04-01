@@ -4,8 +4,8 @@
   <property name="startingXTile" value="8"/>
   <property name="startingYTile" value="18"/>
  </properties>
- <tileset firstgid="1" name="RPG_Maker_VX_RTP_Tileset_by_telles0808" tilewidth="32" tileheight="32">
-  <image source="../../Desktop/Sprites/RPG_Maker_VX_RTP_Tileset_by_telles0808.png" width="1024" height="2016"/>
+ <tileset firstgid="1" name="hugeSpritSheet" tilewidth="32" tileheight="32">
+  <image source="hugeSpriteSheet.png" width="1024" height="2016"/>
   <tile id="101">
    <properties>
     <property name="blocked" value="true"/>

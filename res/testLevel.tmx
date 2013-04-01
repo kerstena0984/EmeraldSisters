@@ -23,8 +23,8 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="257" name="RPG_Maker_VX_RTP_Tileset_by_telles0808" tilewidth="32" tileheight="32">
-  <image source="../../Desktop/Sprites/RPG_Maker_VX_RTP_Tileset_by_telles0808.png" width="1024" height="2016"/>
+ <tileset firstgid="257" name="hugeSpriteSheet" tilewidth="32" tileheight="32">
+  <image source="hugeSpriteSheet.png" width="1024" height="2016"/>
   <tile id="1214">
    <properties>
     <property name="destination" value="throneRoom"/>
