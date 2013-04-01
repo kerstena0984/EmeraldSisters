@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="15" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="startingXTile" value="1"/>
+  <property name="startingYTile" value="1"/>
+ </properties>
+ <tileset firstgid="1" name="hugeSpriteSheet" tilewidth="32" tileheight="32">
+  <image source="hugeSpriteSheet.png" width="1024" height="2016"/>
+  <tile id="139">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1597">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1765">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Floor" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzrYWBg6MGB1+CRg+EJZODBpHcDAT0bqGTvGhL1UMtecvWuoYO92MJ+oNMGsekBm15y8g8IAwDy1X7x
+  </data>
+ </layer>
+ <layer name="Blocked" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYICAGDYGFADj4xKHgQUsDAw1aGIwPoy2Q+MPRnCaDUGfJtGdr4Hqudkh9Gsy/AgKHzsyw4YYvaSaTa5b8IFngzjucQFiwoEaYQUAEK4M3Q==
+  </data>
+ </layer>
+</map>
