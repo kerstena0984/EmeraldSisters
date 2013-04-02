@@ -21,14 +21,14 @@ public class CharacterSprite {
 	public final int spriteHeight = 48;
 
 	public CharacterSprite(String spriteSheet) throws SlickException {
-		this.characterSheet = new SpriteSheet(spriteSheet + ".png", spriteWidth, spriteHeight);
+		this.characterSheet = new SpriteSheet("res/"+spriteSheet + ".png", spriteWidth, spriteHeight);
 
 		characterSheet.setFilter(Image.FILTER_NEAREST);
 
 		setAnimations();
 
 		currentDirection = Direction.NORTH;
-	}
+	} 
 
 	public void draw(Vector2f currentPosition, Vector2f viewport) {
 		animateBasedOnCurrentDirection();
