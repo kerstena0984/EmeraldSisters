@@ -1,20 +1,13 @@
 package com.mattdavben.emeraldsisters.map;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
-import com.google.common.collect.Lists;
 import com.mattdavben.emeraldsisters.EventNexus;
 import com.mattdavben.emeraldsisters.Viewport;
 import com.mattdavben.emeraldsisters.entity.Player;
-import com.mattdavben.emeraldsisters.entity.WorldEntity;
 import com.mattdavben.emeraldsisters.entity.collision.CollisionMap;
-import com.mattdavben.emeraldsisters.entity.collision.QuadTree;
 import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
 
 public class Environment implements MapTransitionListener {
@@ -22,10 +15,7 @@ public class Environment implements MapTransitionListener {
 	private TiledMap map;
 	private int width, height;
 	public final static int TILE_WIDTH = 32;
-	private QuadTree quadtree;
 	private CollisionMap collisionMap;
-	private ArrayList<Shape> collisionObjects;
-	private ArrayList<WorldEntity> worldEntities;
 
 	public Environment(String nameOfLevel) throws SlickException {
 		EventNexus.register(this);
@@ -33,12 +23,6 @@ public class Environment implements MapTransitionListener {
 		this.map = new TiledMap("res/" + nameOfLevel + ".tmx");
 		this.width = map.getWidth();
 		this.height = map.getHeight();
-		
-		collisionObjects = Lists.newArrayList();
-		worldEntities = Lists.newArrayList();
-
-		quadtree = new QuadTree(0, new Rectangle(0, 0, map.getWidth() * Environment.TILE_WIDTH, map.getHeight()
-				* Environment.TILE_WIDTH));
 
 		collisionMap = new CollisionMap(map);
 	}

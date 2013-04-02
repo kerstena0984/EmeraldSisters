@@ -10,9 +10,6 @@ public abstract class Entity {
 
 	protected Vector2f currentPosition;
 
-	public Entity() {
-	}
-
 	public Vector2f getPosition() {
 		return currentPosition;
 	}

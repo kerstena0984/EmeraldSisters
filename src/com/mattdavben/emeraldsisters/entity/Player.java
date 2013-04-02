@@ -13,7 +13,7 @@ import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
 import com.mattdavben.emeraldsisters.player.PlayerMoveListener;
 import com.mattdavben.emeraldsisters.sprite.CharacterSprite;
 
-public class Player extends WorldEntity implements PlayerMoveListener {
+public final class Player extends WorldEntity implements PlayerMoveListener {
 
 	private Input input;
 	public boolean blockedLeft;
