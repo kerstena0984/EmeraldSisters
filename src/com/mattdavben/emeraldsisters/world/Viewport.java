@@ -1,10 +1,12 @@
-package com.mattdavben.emeraldsisters;
+package com.mattdavben.emeraldsisters.world;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.google.common.eventbus.Subscribe;
+import com.mattdavben.emeraldsisters.EventNexus;
+import com.mattdavben.emeraldsisters.Main;
 import com.mattdavben.emeraldsisters.entity.Player;
 import com.mattdavben.emeraldsisters.map.Environment;
 import com.mattdavben.emeraldsisters.map.MapTransitionEvent;

@@ -1,4 +1,4 @@
-package com.mattdavben.emeraldsisters;
+package com.mattdavben.emeraldsisters.world;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,10 +16,13 @@ public class World {
 
 	public World(Input input) throws SlickException {
 		environment = new Environment("testLevel");
-		
+
 		player = new Player(input, environment.getPlayerStartingPosition());
-		
-		viewport = new Viewport(environment.getWidth() * Environment.TILE_WIDTH, environment.getHeight() * Environment.TILE_WIDTH);
+
+		viewport = new Viewport(
+				environment.getWidth() * Environment.TILE_WIDTH, environment
+						.getHeight()
+						* Environment.TILE_WIDTH);
 	}
 
 	public void render(GameContainer gc, Graphics gr) {
