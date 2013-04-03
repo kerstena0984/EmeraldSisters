@@ -1,4 +1,4 @@
-package com.mattdavben.emeraldsisters.entity;
+package com.mattdavben.emeraldsisters.character;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -7,6 +7,9 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.google.common.eventbus.Subscribe;
 import com.mattdavben.emeraldsisters.EventNexus;
+import com.mattdavben.emeraldsisters.Main;
+import com.mattdavben.emeraldsisters.StateChangeEvent;
+import com.mattdavben.emeraldsisters.entity.WorldEntity;
 import com.mattdavben.emeraldsisters.map.Environment;
 import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
 import com.mattdavben.emeraldsisters.player.PlayerMoveListener;
@@ -22,6 +25,7 @@ public final class Player extends WorldEntity implements PlayerMoveListener {
 	public boolean blockedDown;
 	private CharacterSprite sprite;
 	public final static float WALKING_SPEED = 5.0f;
+	private int battleCounter;
 
 	public Player(Input input, Vector2f startingPosition) throws SlickException {
 		EventNexus.register(this);
@@ -47,6 +51,8 @@ public final class Player extends WorldEntity implements PlayerMoveListener {
 		blockedRight = false;
 		blockedUp = false;
 		blockedDown = false;
+
+		battleCounter = 5000;
 	}
 
 	public void render(Viewport viewport) {
@@ -75,6 +81,13 @@ public final class Player extends WorldEntity implements PlayerMoveListener {
 
 		collisionShape.setX(currentPosition.x + 4);
 		collisionShape.setY(currentPosition.y + 24);
+		
+		battleCounter -= delta;
+		
+		if(battleCounter <= 0){
+			EventNexus.post(new StateChangeEvent(Main.BattleState));
+			battleCounter = 5000;
+		}
 	}
 
 	public enum Direction {

@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-import com.mattdavben.emeraldsisters.entity.Player;
+import com.mattdavben.emeraldsisters.character.Player;
 import com.mattdavben.emeraldsisters.map.Environment;
 
 public class World {

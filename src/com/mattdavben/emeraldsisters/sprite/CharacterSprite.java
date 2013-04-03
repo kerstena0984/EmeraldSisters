@@ -6,7 +6,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.mattdavben.emeraldsisters.entity.Player.Direction;
+import com.mattdavben.emeraldsisters.character.Player.Direction;
 
 public class CharacterSprite {
 

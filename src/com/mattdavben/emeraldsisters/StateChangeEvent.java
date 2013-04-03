@@ -1,13 +1,15 @@
 package com.mattdavben.emeraldsisters;
 
-public class StateChangeEvent {
-	private final int state;
+import org.newdawn.slick.state.BasicGameState;
 
-	public StateChangeEvent(int state) {
+public class StateChangeEvent {
+	private final BasicGameState state;
+
+	public StateChangeEvent(BasicGameState state) {
 		this.state = state;
 	}
 
-	public int getState() {
+	public BasicGameState getState() {
 		return state;
 	}
 }
