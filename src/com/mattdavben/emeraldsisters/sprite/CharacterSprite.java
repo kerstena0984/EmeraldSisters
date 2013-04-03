@@ -12,28 +12,36 @@ public class CharacterSprite {
 
 	private SpriteSheet characterSheet;
 	private Animation current;
-	private Animation playerWalkingNorth, playerWalkingSouth, playerWalkingWest, playerWalkingEast;
-	private Animation playerWalkingNorthWest, playerWalkingNorthEast, playerWalkingSouthWest, playerWalkingSouthEast;
+	private Animation playerWalkingNorth, playerWalkingSouth,
+			playerWalkingWest, playerWalkingEast;
+	private Animation playerWalkingNorthWest, playerWalkingNorthEast,
+			playerWalkingSouthWest, playerWalkingSouthEast;
 	private int msBetweenAnimationFrames = 100;
-	private int[] animationLength = { msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames, msBetweenAnimationFrames};
+	private int[] animationLength = { msBetweenAnimationFrames,
+			msBetweenAnimationFrames, msBetweenAnimationFrames,
+			msBetweenAnimationFrames, msBetweenAnimationFrames,
+			msBetweenAnimationFrames, msBetweenAnimationFrames,
+			msBetweenAnimationFrames };
 	private Direction currentDirection;
 	public final int spriteWidth = 32;
 	public final int spriteHeight = 48;
 
 	public CharacterSprite(String spriteSheet) throws SlickException {
-		this.characterSheet = new SpriteSheet("res/"+spriteSheet + ".png", spriteWidth, spriteHeight);
+		this.characterSheet = new SpriteSheet("res/" + spriteSheet + ".png",
+				spriteWidth, spriteHeight);
 
 		characterSheet.setFilter(Image.FILTER_NEAREST);
 
 		setAnimations();
 
 		currentDirection = Direction.NORTH;
-	} 
+	}
 
 	public void draw(Vector2f currentPosition, Vector2f viewport) {
 		animateBasedOnCurrentDirection();
 
-		current.draw(currentPosition.x - viewport.x, currentPosition.y - viewport.y);
+		current.draw(currentPosition.x - viewport.x, currentPosition.y
+				- viewport.y);
 	}
 
 	public void update(int delta) {
@@ -47,7 +55,7 @@ public class CharacterSprite {
 	public int getSpriteHeight() {
 		return spriteHeight;
 	}
-	
+
 	public void updateDirection(Direction direction) {
 		this.currentDirection = direction;
 	}
@@ -117,7 +125,8 @@ public class CharacterSprite {
 		Image south4 = characterSheet.getSubImage(4, 1);
 
 		// Image[] north = { north0, north1, north0, north2 };
-		Image[] south = { south0, south1, south2, south1, south0, south3, south4, south3, };
+		Image[] south = { south0, south1, south2, south1, south0, south3,
+				south4, south3, };
 		// Image[] east = { east0, east1, east0, east2 };
 		// Image[] west = { west0, west1, west0, west2 };
 		// Image[] southwest = { southwest0, southwest1, southwest0, southwest2
