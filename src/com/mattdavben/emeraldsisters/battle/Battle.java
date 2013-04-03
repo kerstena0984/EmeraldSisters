@@ -16,7 +16,7 @@ public class Battle {
 	private List<BattleEntity> characters;
 	private List<BattleEntity> enemies;
 	private Image landscape;
-	private int durationSeconds = 3;
+	private int durationSeconds = 1;
 	private int timedBattle = durationSeconds * 1000;
 	private int currentTime = 0;
 

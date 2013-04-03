@@ -52,7 +52,7 @@ public final class Player extends WorldEntity implements PlayerMoveListener {
 		blockedUp = false;
 		blockedDown = false;
 
-		battleCounter = 5000;
+		battleCounter = 10000;
 	}
 
 	public void render(Viewport viewport) {
@@ -86,7 +86,7 @@ public final class Player extends WorldEntity implements PlayerMoveListener {
 		
 		if(battleCounter <= 0){
 			EventNexus.post(new StateChangeEvent(Main.BattleState));
-			battleCounter = 5000;
+			battleCounter = 10000;
 		}
 	}
 

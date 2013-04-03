@@ -31,6 +31,7 @@ public class Main extends StateBasedGame implements StateChangeListener {
 		try {
 			agc = new AppGameContainer(new Main(NAME));
 			agc.setDisplayMode(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT, false);
+			agc.setShowFPS(false);
 			agc.setTargetFrameRate(90);
 			agc.start();
 		} catch (SlickException e) {
