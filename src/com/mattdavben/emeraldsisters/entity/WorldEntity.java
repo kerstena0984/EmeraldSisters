@@ -4,7 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Polygon;
 
-import com.mattdavben.emeraldsisters.Viewport;
+import com.mattdavben.emeraldsisters.world.Viewport;
 
 public class WorldEntity extends Entity {
 

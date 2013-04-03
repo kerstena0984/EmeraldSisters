@@ -4,7 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.mattdavben.emeraldsisters.Viewport;
+import com.mattdavben.emeraldsisters.world.Viewport;
 
 public abstract class Entity {
 

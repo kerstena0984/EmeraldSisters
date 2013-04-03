@@ -7,11 +7,11 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.google.common.eventbus.Subscribe;
 import com.mattdavben.emeraldsisters.EventNexus;
-import com.mattdavben.emeraldsisters.Viewport;
 import com.mattdavben.emeraldsisters.map.Environment;
 import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
 import com.mattdavben.emeraldsisters.player.PlayerMoveListener;
 import com.mattdavben.emeraldsisters.sprite.CharacterSprite;
+import com.mattdavben.emeraldsisters.world.Viewport;
 
 public final class Player extends WorldEntity implements PlayerMoveListener {
 

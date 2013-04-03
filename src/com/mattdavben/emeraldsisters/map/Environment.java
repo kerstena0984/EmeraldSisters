@@ -5,10 +5,10 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 
 import com.mattdavben.emeraldsisters.EventNexus;
-import com.mattdavben.emeraldsisters.Viewport;
 import com.mattdavben.emeraldsisters.entity.Player;
 import com.mattdavben.emeraldsisters.entity.collision.CollisionMap;
 import com.mattdavben.emeraldsisters.player.PlayerMoveEvent;
+import com.mattdavben.emeraldsisters.world.Viewport;
 
 public class Environment implements MapTransitionListener {
 
