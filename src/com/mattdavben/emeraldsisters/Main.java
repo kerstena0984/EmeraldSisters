@@ -5,9 +5,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Main extends StateBasedGame {
+import com.google.common.eventbus.Subscribe;
 
-	private final static String NAME = "Emerald Sisters | Pre-Alpha 0.0.1";
+public class Main extends StateBasedGame implements StateChangeListener {
+
+	private final static String NAME = "Emerald Sisters | Pre-Alpha 0.0.2";
 	public static final int play = 1;
 	public static final int GAME_SCREEN_WIDTH = 800;
 	public static final int GAME_SCREEN_HEIGHT = 600;
@@ -15,6 +17,7 @@ public class Main extends StateBasedGame {
 	public Main(String name) {
 		super(name);
 		this.addState(new PlayState(play));
+		EventNexus.register(this);
 	}
 
 	@Override
@@ -32,6 +35,11 @@ public class Main extends StateBasedGame {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Subscribe
+	public void listen(StateChangeEvent event) {
+		this.enterState(event.getState());
 	}
 
 }
