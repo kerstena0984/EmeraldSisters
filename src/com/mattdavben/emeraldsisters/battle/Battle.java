@@ -8,11 +8,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import com.google.common.collect.Lists;
+import com.mattdavben.emeraldsisters.EventNexus;
+import com.mattdavben.emeraldsisters.Main;
+import com.mattdavben.emeraldsisters.StateChangeEvent;
 
 public class Battle {
 	private List<BattleEntity> characters;
 	private List<BattleEntity> enemies;
 	private Image landscape;
+	private int durationSeconds = 3;
+	private int timedBattle = durationSeconds * 1000;
+	private int currentTime = 0;
 
 	private Battle(BattleBuilder builder) {
 		this.characters = builder.builderCharacters;
@@ -53,6 +59,14 @@ public class Battle {
 	}
 
 	public void update(GameContainer gc, int delta) {
+		currentTime += delta;
 
+		if (currentTime >= timedBattle) {
+			endBattle();
+		}
+	}
+
+	public void endBattle() {
+		EventNexus.post(new StateChangeEvent(Main.PlayState));
 	}
 }
