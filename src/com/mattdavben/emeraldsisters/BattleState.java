@@ -2,6 +2,7 @@ package com.mattdavben.emeraldsisters;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -31,7 +32,11 @@ public class BattleState extends BasicGameState {
 	@Override
 	public void enter(GameContainer container, StateBasedGame game) throws SlickException {
 		super.enter(container, game);
-		battle = new Battle.BattleBuilder().WithCharacter(new BattleEntity("Random Battle!")).build();
+		battle = new Battle(new Image("res/BattleBackground.png")).withCharacter(new BattleEntity("Katherine"))
+				.withCharacter(new BattleEntity("Elizabeth"))
+				.withCharacter(new BattleEntity("Madeline"))
+				.withCharacter(new BattleEntity("Juliette"))
+				.withEnemy(new BattleEntity("Bad Guy!"));
 	}
 
 	@Override

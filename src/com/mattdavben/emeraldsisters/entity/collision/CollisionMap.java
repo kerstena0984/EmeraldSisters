@@ -110,7 +110,6 @@ public class CollisionMap {
 						int height = Integer.parseInt(collisionHeight);
 						Rectangle collision = buildCollisionBox(tileID, x - startX, y - startY, width, height);
 						SolidTile tile = new SolidTile(new Vector2f(x - startX, y - startY), collision);
-						System.out.println((x - startX) + " " + (y - startY));
 						collisionObjects.add(tile.getCollisionBox());
 					}
 				}
